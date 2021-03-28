@@ -27,7 +27,7 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({ notes }) => {
 
     system
       .addStave({
-        voices: [score.voice(stavedNotes, null)],
+        voices: [score.voice(stavedNotes, null).setMode('soft')],
       })
       .addClef('treble')
       .addTimeSignature('4/4')
