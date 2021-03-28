@@ -1,5 +1,6 @@
 import React from 'react'
-import { start, Synth } from 'tone'
+import * as Tone from 'tone'
+import { Synth } from 'tone'
 
 export const useSynth = () => {
   const [synth, setSynth] = React.useState<Synth>(null)
@@ -8,9 +9,11 @@ export const useSynth = () => {
     if (process.browser) {
       const newSynth = new Synth({
         oscillator: {
-          type: 'sine',
+          type: 'amtriangle10',
+          volume: 2,
         },
         envelope: {
+          attack: 0.3,
           release: 0.4,
         },
       })
@@ -22,7 +25,7 @@ export const useSynth = () => {
 
   return {
     play: async (note: string) => {
-      await start()
+      await Tone.start()
       synth.triggerAttackRelease(note, '8n')
     },
     synth,

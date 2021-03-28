@@ -54,7 +54,7 @@ export default function Home() {
     isPlaying: false,
   })
   const [currentNote, setCurrentNote] = React.useState<string>(null)
-  const { play }: Tone.Synth<Tone.SynthOptions> = useSynth()
+  const { play } = useSynth()
 
   const scale = Tonal.Scale.get(
     `${state.note}${altToSymbol(state.alt)}4 ${state.scale}`
@@ -152,6 +152,7 @@ export default function Home() {
           <Button
             flex='1'
             onClick={async () => {
+              await Tone.start()
               sequence.current = new Tone.Sequence(
                 (time, note) => {
                   if (note === 'end') {
