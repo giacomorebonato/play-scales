@@ -17,6 +17,7 @@ import * as Tone from 'tone'
 import { MyLink } from '../components/MyLink'
 import { NotesRow } from '../components/NotesRow'
 import { ScaleSelect } from '../components/ScaleSelect'
+import { useSynth } from '../hooks/useSynth'
 
 const notes = Tonal.Note.names()
 
@@ -53,18 +54,11 @@ export default function Home() {
     isPlaying: false,
   })
   const [currentNote, setCurrentNote] = React.useState<string>(null)
-  let synth: Tone.Synth<Tone.SynthOptions>
+  const { play }: Tone.Synth<Tone.SynthOptions> = useSynth()
 
   const scale = Tonal.Scale.get(
     `${state.note}${altToSymbol(state.alt)}4 ${state.scale}`
   )
-
-  if (process.browser) {
-    synth = new Tone.Synth()
-    synth.oscillator.type = 'sine'
-
-    synth.toDestination()
-  }
 
   const stopSequence = () => {
     setCurrentNote(null)
@@ -158,8 +152,6 @@ export default function Home() {
           <Button
             flex='1'
             onClick={async () => {
-              await Tone.start()
-
               sequence.current = new Tone.Sequence(
                 (time, note) => {
                   if (note === 'end') {
@@ -169,10 +161,10 @@ export default function Home() {
                   }
 
                   setCurrentNote(Tonal.Note.get(note).name)
-                  synth.triggerAttackRelease(note, '10hz', time)
+                  play(note)
                 },
                 [...scaleNotes, 'end'],
-                1.5
+                1.2
               )
 
               sequence.current.loop = false

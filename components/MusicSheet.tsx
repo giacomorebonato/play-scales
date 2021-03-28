@@ -22,7 +22,6 @@ L: 1/4
 K: 
 |${text}|
   `
-    console.log(abcText)
     abcjs.renderAbc(ID, abcText, {
       add_classes: true,
       responsive: 'resize',
