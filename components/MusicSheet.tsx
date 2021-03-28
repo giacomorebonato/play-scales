@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/layout'
 import { useEffect } from 'react'
+import { useMeasure } from 'react-use'
 import Vex from 'vexflow'
 
 type MusicSheetProps = {
@@ -9,10 +10,12 @@ type MusicSheetProps = {
 const ID = 'music-sheet'
 
 export const MusicSheet: React.FC<MusicSheetProps> = ({ notes }) => {
+  const [ref, { width }] = useMeasure()
+
   useEffect(() => {
     document.getElementById(ID).innerHTML = ''
     const vf = new Vex.Flow.Factory({
-      renderer: { elementId: ID, height: '120px' },
+      renderer: { elementId: ID, height: '120px', width: `${width}px` },
     })
 
     const score = vf.EasyScore()
@@ -34,16 +37,18 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({ notes }) => {
       .addTimeSignature('4/4')
 
     vf.draw()
-  }, [notes])
+  }, [notes, width])
 
   return (
-    <Box
-      id={ID}
-      display='flex'
-      justifyContent='center'
-      bg='white'
-      borderRadius='md'
-      mt='2'
-    />
+    <div ref={ref}>
+      <Box
+        id={ID}
+        display='flex'
+        justifyContent='center'
+        bg='white'
+        borderRadius='md'
+        mt='2'
+      />
+    </div>
   )
 }

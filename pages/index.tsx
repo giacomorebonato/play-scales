@@ -136,11 +136,20 @@ export default function Home() {
 
               const synthPart = new Tone.Sequence(
                 (time, note) => {
+                  if (note === 'end') {
+                    setCurrentNote(null)
+                    synthPart.stop()
+                    setState({ ...state, isPlaying: false })
+                    Tone.Transport.stop()
+
+                    return
+                  }
+
                   setCurrentNote(Tonal.Note.get(note).name)
 
                   synth.triggerAttackRelease(note, '10hz', time)
                 },
-                scaleNotes,
+                [...scaleNotes, 'end'],
                 1.5
               )
               synthPart.loop = false
