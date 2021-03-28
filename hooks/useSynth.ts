@@ -9,12 +9,14 @@ export const useSynth = () => {
     if (process.browser) {
       const newSynth = new Synth({
         oscillator: {
-          type: 'amtriangle10',
+          type: 'triangle8',
           volume: 2,
         },
         envelope: {
-          attack: 0.3,
-          release: 0.4,
+          attack: 2,
+          decay: 1,
+          sustain: 0.4,
+          release: 4,
         },
       })
       setSynth(newSynth)
