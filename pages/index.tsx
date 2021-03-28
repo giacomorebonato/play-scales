@@ -64,9 +64,20 @@ export default function Home() {
     synth.toDestination()
   }
 
+  const stopSequence = () => {
+    setCurrentNote(null)
+
+    sequence.current.stop()
+    sequence.current.clear()
+    setState({ ...state, isPlaying: false })
+    Tone.Transport.stop()
+  }
+
   const scaleNotes = scale.notes
 
   scaleNotes.push(Tonal.Note.transpose(scale.notes[0], '8M'))
+
+  let sequence = React.useRef<Tone.Sequence<string>>()
 
   return (
     <Container>
@@ -82,6 +93,7 @@ export default function Home() {
         <FormControl as='fieldset' mb='4'>
           <FormLabel>Root note</FormLabel>
           <Select
+            disabled={state.isPlaying}
             onChange={(e) => {
               setState({ ...state, note: e.target.value })
             }}
@@ -97,6 +109,7 @@ export default function Home() {
         <FormControl as='fieldset' mb='4'>
           <FormLabel>Alteration</FormLabel>
           <Select
+            disabled={state.isPlaying}
             onChange={(e) => {
               const alt =
                 e.target.value === 'natural'
@@ -115,6 +128,7 @@ export default function Home() {
         <FormControl as='fieldset' mb='4'>
           <FormLabel>Scale name</FormLabel>
           <Select
+            disabled={state.isPlaying}
             onChange={(e) => {
               setState({ ...state, scale: e.target.value })
             }}
@@ -134,29 +148,26 @@ export default function Home() {
             onClick={async () => {
               await Tone.start()
 
-              const synthPart = new Tone.Sequence(
+              sequence.current = new Tone.Sequence(
                 (time, note) => {
                   if (note === 'end') {
-                    setCurrentNote(null)
-                    synthPart.stop()
-                    setState({ ...state, isPlaying: false })
-                    Tone.Transport.stop()
+                    stopSequence()
 
                     return
                   }
 
                   setCurrentNote(Tonal.Note.get(note).name)
-
                   synth.triggerAttackRelease(note, '10hz', time)
                 },
                 [...scaleNotes, 'end'],
                 1.5
               )
-              synthPart.loop = false
+
+              sequence.current.loop = false
 
               setState({ ...state, isPlaying: true })
 
-              synthPart.start()
+              sequence.current.start()
               Tone.Transport.start()
             }}
             colorScheme='pink'
@@ -172,9 +183,7 @@ export default function Home() {
             variant='outline'
             disabled={!state.isPlaying}
             onClick={() => {
-              setCurrentNote(null)
-              setState({ ...state, isPlaying: false })
-              Tone.Transport.stop()
+              stopSequence()
             }}
           >
             Stop

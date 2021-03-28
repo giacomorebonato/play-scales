@@ -13,6 +13,7 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({ notes }) => {
   const [ref, { width }] = useMeasure()
 
   useEffect(() => {
+    console.log(`width: ${width}`)
     document.getElementById(ID).innerHTML = ''
     const vf = new Vex.Flow.Factory({
       renderer: { elementId: ID, height: '120px', width: `${width}px` },
@@ -29,12 +30,10 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({ notes }) => {
       duration: 'q',
     })
 
-    system
-      .addStave({
-        voices: [score.voice(stavedNotes, null).setMode('soft')],
-      })
-      .addClef('treble')
-      .addTimeSignature('4/4')
+    vf.Formatter()
+    system.addStave({
+      voices: [score.voice(stavedNotes, null).setMode('soft')],
+    })
 
     vf.draw()
   }, [notes, width])
