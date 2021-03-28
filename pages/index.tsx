@@ -58,7 +58,10 @@ export default function Home() {
   )
 
   if (process.browser) {
-    synth = new Tone.Synth().toDestination()
+    synth = new Tone.Synth()
+    synth.oscillator.type = 'sine'
+
+    synth.toDestination()
   }
 
   const scaleNotes = scale.notes
