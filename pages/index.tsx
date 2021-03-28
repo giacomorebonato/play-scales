@@ -80,7 +80,7 @@ export default function Home() {
   let sequence = React.useRef<Tone.Sequence<string>>()
 
   return (
-    <Container>
+    <Container pt='4' pb='4'>
       <Head>
         <title>play-scales</title>
         <link rel='icon' href='/favicon.ico' />
