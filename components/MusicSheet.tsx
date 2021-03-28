@@ -1,7 +1,8 @@
 import { Box } from '@chakra-ui/layout'
+import AbcNotation from '@tonaljs/abc-notation'
+import abcjs from 'abcjs'
 import { useEffect } from 'react'
 import { useMeasure } from 'react-use'
-import Vex from 'vexflow'
 
 type MusicSheetProps = {
   notes: string[]
@@ -13,29 +14,20 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({ notes }) => {
   const [ref, { width }] = useMeasure()
 
   useEffect(() => {
-    console.log(`width: ${width}`)
-    document.getElementById(ID).innerHTML = ''
-    const vf = new Vex.Flow.Factory({
-      renderer: { elementId: ID, height: '120px', width: `${width}px` },
+    if (width === 0) return
+    const text = notes.map(AbcNotation.scientificToAbcNotation).join(' ')
+    const abcText = `
+M:
+L: 1/4
+K: 
+|${text}|
+  `
+    console.log(abcText)
+    abcjs.renderAbc(ID, abcText, {
+      add_classes: true,
+      responsive: 'resize',
+      staffwidth: 300,
     })
-
-    const score = vf.EasyScore()
-    const system = vf.System()
-
-    if (notes.length === 0) return null
-
-    const joinedNotes = notes.join(', ')
-    const stavedNotes = score.notes(joinedNotes, {
-      clef: 'treble',
-      duration: 'q',
-    })
-
-    vf.Formatter()
-    system.addStave({
-      voices: [score.voice(stavedNotes, null).setMode('soft')],
-    })
-
-    vf.draw()
   }, [notes, width])
 
   return (
