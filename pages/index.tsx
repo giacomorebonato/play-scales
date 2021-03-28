@@ -1,8 +1,8 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Container,
-  Flex,
   FormControl,
   FormLabel,
   Select,
@@ -13,6 +13,7 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import React from 'react'
 import * as Tone from 'tone'
+import { NotesRow } from '../components/NotesRow'
 
 const scales = Tonal.Scale.names().sort()
 const notes = Tonal.Note.names()
@@ -21,6 +22,7 @@ type State = {
   alt: 1 | -1 | ''
   note: string
   scale: string
+  isPlaying: boolean
 }
 
 const altToSymbol = (alt: '' | -1 | 1) => {
@@ -46,6 +48,7 @@ export default function Home() {
     alt: '',
     note: 'C',
     scale: 'major',
+    isPlaying: false,
   })
   const [currentNote, setCurrentNote] = React.useState<string>(null)
   let synth: Tone.Synth<Tone.SynthOptions>
@@ -69,7 +72,7 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <Text fontSize='xl' as='h1'>
+      <Text fontSize='2xl' as='h1' mb='4'>
         Play scales
       </Text>
       <Box as='form'>
@@ -123,57 +126,54 @@ export default function Home() {
           </Select>
         </FormControl>
 
-        <Button
-          onClick={async () => {
-            await Tone.start()
+        <ButtonGroup spacing='6' display='flex'>
+          <Button
+            flex='1'
+            onClick={async () => {
+              await Tone.start()
 
-            const synthPart = new Tone.Sequence(
-              (time, note) => {
-                setCurrentNote(Tonal.Note.get(note).letter)
+              const synthPart = new Tone.Sequence(
+                (time, note) => {
+                  setCurrentNote(Tonal.Note.get(note).name)
 
-                synth.triggerAttackRelease(note, '10hz', time)
-              },
-              scaleNotes,
-              1.5
-            )
-            synthPart.loop = false
+                  synth.triggerAttackRelease(note, '10hz', time)
+                },
+                scaleNotes,
+                1.5
+              )
+              synthPart.loop = false
 
-            synthPart.start()
-            Tone.Transport.start()
-          }}
-        >
-          Play scale
-        </Button>
+              setState({ ...state, isPlaying: true })
+
+              synthPart.start()
+              Tone.Transport.start()
+            }}
+            colorScheme='pink'
+            variant='solid'
+            disabled={state.isPlaying}
+          >
+            Play
+          </Button>
+
+          <Button
+            flex='1'
+            colorScheme='pink'
+            variant='outline'
+            disabled={!state.isPlaying}
+            onClick={() => {
+              setCurrentNote(null)
+              setState({ ...state, isPlaying: false })
+              Tone.Transport.stop()
+            }}
+          >
+            Stop
+          </Button>
+        </ButtonGroup>
       </Box>
 
       <DynamicMusicSheet notes={scale.notes} />
 
-      <Flex mt='2'>
-        {scaleNotes.map((note) => {
-          const tonalNote = Tonal.Note.get(note)
-          let alt = ''
-
-          if (tonalNote.alt === 1) {
-            alt = '#'
-          } else if (tonalNote.alt === -1) {
-            alt = 'b'
-          }
-
-          return (
-            <Text
-              padding='2'
-              flex='1'
-              key={note}
-              textAlign='center'
-              bg={currentNote === tonalNote.letter ? 'red.100' : null}
-              borderRadius='md'
-            >
-              {tonalNote.letter}
-              {alt}
-            </Text>
-          )
-        })}
-      </Flex>
+      <NotesRow notes={scaleNotes} currentNote={currentNote} />
     </Container>
   )
 }
