@@ -3,6 +3,7 @@ import {
   Button,
   ButtonGroup,
   Container,
+  Flex,
   FormControl,
   FormLabel,
   Select,
@@ -13,9 +14,10 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import React from 'react'
 import * as Tone from 'tone'
+import { MyLink } from '../components/MyLink'
 import { NotesRow } from '../components/NotesRow'
+import { ScaleSelect } from '../components/ScaleSelect'
 
-const scales = Tonal.Scale.names().sort()
 const notes = Tonal.Note.names()
 
 type State = {
@@ -77,7 +79,7 @@ export default function Home() {
 
   scaleNotes.push(Tonal.Note.transpose(scale.notes[0], '8M'))
 
-  let sequence = React.useRef<Tone.Sequence<string>>()
+  const sequence = React.useRef<Tone.Sequence<string>>()
 
   return (
     <Container pt='4' pb='4'>
@@ -86,9 +88,26 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <Text fontSize='2xl' as='h1' mb='4'>
-        Play scales
-      </Text>
+      <Flex flexDirection='row' alignItems='center'>
+        <Text
+          fontWeight='bold'
+          fontSize='2xl'
+          as='h1'
+          mb='4'
+          color='pink.300'
+          flex='1'
+        >
+          Play scales
+        </Text>
+
+        <Box>
+          <MyLink href='https://github.com/giacomorebonato/play-scales'>
+            GitHub
+          </MyLink>{' '}
+          | <MyLink href='http://giacomorebonato.com/'>Giacomo Rebonato</MyLink>
+        </Box>
+      </Flex>
+
       <Box as='form'>
         <FormControl as='fieldset' mb='4'>
           <FormLabel>Root note</FormLabel>
@@ -125,23 +144,16 @@ export default function Home() {
             <option value='-1'>Flat - b</option>
           </Select>
         </FormControl>
-        <FormControl as='fieldset' mb='4'>
-          <FormLabel>Scale name</FormLabel>
-          <Select
-            disabled={state.isPlaying}
-            onChange={(e) => {
-              setState({ ...state, scale: e.target.value })
-            }}
-            value={state.scale}
-          >
-            {scales.map((scale) => (
-              <option key={scale} value={scale}>
-                {scale}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-
+        <ScaleSelect
+          disabled={state.isPlaying}
+          onChange={(scaleName) => {
+            setState({
+              ...state,
+              scale: scaleName,
+            })
+          }}
+          value={state.scale}
+        />
         <ButtonGroup spacing='6' display='flex'>
           <Button
             flex='1'

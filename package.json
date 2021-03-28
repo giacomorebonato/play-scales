@@ -1,6 +1,9 @@
 {
   "name": "play-scales",
   "version": "0.1.0",
+  "repository": {
+    "url": "git@github.com:giacomorebonato/play-scales.git"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
