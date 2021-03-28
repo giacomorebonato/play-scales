@@ -76,13 +76,12 @@ export default function Home() {
         Play scales
       </Text>
       <Box as='form'>
-        <FormControl as='fieldset' mb='2'>
-          <FormLabel>Note</FormLabel>
+        <FormControl as='fieldset' mb='4'>
+          <FormLabel>Root note</FormLabel>
           <Select
             onChange={(e) => {
               setState({ ...state, note: e.target.value })
             }}
-            placeholder='Select note'
             value={state.note}
           >
             {notes.map((note) => (
@@ -92,30 +91,30 @@ export default function Home() {
             ))}
           </Select>
         </FormControl>
-        <FormControl as='fieldset' mb='2'>
-          <FormLabel>Alt</FormLabel>
+        <FormControl as='fieldset' mb='4'>
+          <FormLabel>Alteration</FormLabel>
           <Select
             onChange={(e) => {
               const alt =
-                e.target.value === '' ? '' : (parseInt(e.target.value) as any)
+                e.target.value === 'natural'
+                  ? ''
+                  : (parseInt(e.target.value) as any)
 
               setState({ ...state, alt })
             }}
-            placeholder='Select alt'
-            value={state.alt}
+            value={state.alt || 'natural'}
           >
-            <option value=''>Natural</option>
+            <option value='natural'>Natural</option>
             <option value='1'>Sharp - #</option>
             <option value='-1'>Flat - b</option>
           </Select>
         </FormControl>
-        <FormControl as='fieldset' mb='2'>
+        <FormControl as='fieldset' mb='4'>
           <FormLabel>Scale name</FormLabel>
           <Select
             onChange={(e) => {
               setState({ ...state, scale: e.target.value })
             }}
-            placeholder='Select scale'
             value={state.scale}
           >
             {scales.map((scale) => (
