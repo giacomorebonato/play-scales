@@ -82,19 +82,30 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <Flex flexDirection='row' alignItems='center'>
+      <Flex
+        flexDirection={{
+          base: 'column',
+          md: 'row',
+        }}
+        alignItems='center'
+        mb='4'
+      >
         <Text
           fontWeight='bold'
           fontSize='2xl'
           as='h1'
-          mb='4'
           color='pink.300'
           flex='1'
         >
           Play scales
         </Text>
 
-        <Box>
+        <Box
+          fontSize={{
+            base: 'sm',
+            md: 'normal',
+          }}
+        >
           <MyLink href='https://github.com/giacomorebonato/play-scales'>
             GitHub
           </MyLink>{' '}
@@ -148,7 +159,7 @@ export default function Home() {
           }}
           value={state.scale}
         />
-        <ButtonGroup spacing='6' display='flex'>
+        <ButtonGroup spacing='6' pb='2' display='flex'>
           <Button
             flex='1'
             onClick={async () => {

@@ -35,6 +35,7 @@ export const NotesRow: React.FC<NotesRowProps> = ({ currentNote, notes }) => {
             bg={currentNote === tonalNote.name ? 'pink.400' : null}
             borderRadius='md'
             fontWeight='bold'
+            size='sm'
           >
             {tonalNote.letter}
             {alt}

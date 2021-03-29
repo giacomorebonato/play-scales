@@ -11,7 +11,7 @@ export const MyLink: React.FC<MyLinkProps> = ({ children, href }) => (
     fontSize='md'
     color='pink.50'
     _hover={{
-      color: 'pink.100',
+      color: 'pink.200',
     }}
     variant='link'
     isExternal
