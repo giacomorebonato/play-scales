@@ -4,6 +4,7 @@ import { Synth } from 'tone'
 
 export const useSynth = () => {
   const [synth, setSynth] = React.useState<Synth>(null)
+  const [currentNote, setCurrentNote] = React.useState<string>()
 
   React.useEffect(() => {
     if (process.browser) {
@@ -30,6 +31,7 @@ export const useSynth = () => {
       await Tone.start()
       synth.triggerAttackRelease(note, '8n')
     },
+    playSequence: () => {},
     synth,
   }
 }

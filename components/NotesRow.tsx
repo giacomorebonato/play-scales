@@ -13,7 +13,7 @@ export const NotesRow: React.FC<NotesRowProps> = ({ currentNote, notes }) => {
 
   return (
     <Flex mt='2'>
-      {notes.map((note) => {
+      {notes.map((note, i) => {
         const tonalNote = Note.get(note)
         let alt = ''
 

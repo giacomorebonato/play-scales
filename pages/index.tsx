@@ -1,42 +1,28 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   ButtonGroup,
   Container,
-  Flex,
   FormControl,
   FormLabel,
   Select,
-  Text,
 } from '@chakra-ui/react'
 import * as Tonal from '@tonaljs/tonal'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import React from 'react'
 import * as Tone from 'tone'
-import { MyLink } from '../components/MyLink'
-import { NotesRow } from '../components/NotesRow'
-import { ScaleSelect } from '../components/ScaleSelect'
+import { Header, NoteSelect, NotesRow, ScaleSelect } from '../components'
 import { useSynth } from '../hooks/useSynth'
-
-const notes = Tonal.Note.names()
+import { altToSymbol } from '../lib/altToSymbol'
 
 type State = {
   alt: 1 | -1 | ''
   note: string
   scale: string
   isPlaying: boolean
-}
-
-const altToSymbol = (alt: '' | -1 | 1) => {
-  switch (alt) {
-    case '':
-      return ''
-    case 1:
-      return '#'
-    case -1:
-      return 'b'
-  }
 }
 
 const DynamicMusicSheet = dynamic(
@@ -53,12 +39,20 @@ export default function Home() {
     scale: 'major',
     isPlaying: false,
   })
+  const [simpleNote, setSimpleNote] = React.useState<string>()
   const [currentNote, setCurrentNote] = React.useState<string>(null)
   const { play } = useSynth()
 
-  const scale = Tonal.Scale.get(
-    `${state.note}${altToSymbol(state.alt)}4 ${state.scale}`
-  )
+  const fullNote = `${state.note}${altToSymbol(state.alt)}`
+  const scale = Tonal.Scale.get(`${fullNote}4 ${state.scale}`)
+
+  React.useEffect(() => {
+    const simplified = Tonal.Note.simplify(fullNote)
+
+    if (simplified !== simpleNote && simplified !== fullNote) {
+      setSimpleNote(Tonal.Note.simplify(fullNote))
+    }
+  }, [state.note, state.alt])
 
   const stopSequence = () => {
     setCurrentNote(null)
@@ -82,54 +76,16 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <Flex
-        flexDirection={{
-          base: 'column',
-          md: 'row',
-        }}
-        alignItems='center'
-        mb='4'
-      >
-        <Text
-          fontWeight='bold'
-          fontSize='2xl'
-          as='h1'
-          color='pink.300'
-          flex='1'
-        >
-          Play scales
-        </Text>
-
-        <Box
-          fontSize={{
-            base: 'sm',
-            md: 'normal',
-          }}
-        >
-          <MyLink href='https://github.com/giacomorebonato/play-scales'>
-            GitHub
-          </MyLink>{' '}
-          | <MyLink href='http://giacomorebonato.com/'>Giacomo Rebonato</MyLink>
-        </Box>
-      </Flex>
+      <Header />
 
       <Box as='form'>
-        <FormControl as='fieldset' mb='4'>
-          <FormLabel>Root note</FormLabel>
-          <Select
-            disabled={state.isPlaying}
-            onChange={(e) => {
-              setState({ ...state, note: e.target.value })
-            }}
-            value={state.note}
-          >
-            {notes.map((note) => (
-              <option key={note} value={note}>
-                {note}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
+        <NoteSelect
+          isDisabled={state.isPlaying}
+          note={state.note}
+          onChange={(note) => {
+            setState({ ...state, note: note })
+          }}
+        />
         <FormControl as='fieldset' mb='4'>
           <FormLabel>Alteration</FormLabel>
           <Select
@@ -149,6 +105,33 @@ export default function Home() {
             <option value='-1'>Flat - b</option>
           </Select>
         </FormControl>
+
+        {simpleNote && (
+          <Alert status='info' mb='2'>
+            <AlertIcon />
+            The note {fullNote} is better&nbsp;
+            <Button
+              color='pink.200'
+              _hover={{
+                color: 'pink.400',
+              }}
+              variant='unstyled'
+              onClick={() => {
+                setSimpleNote(null)
+                const tonalNote = Tonal.Note.get(simpleNote)
+                setState({
+                  ...state,
+                  note: tonalNote.letter,
+                  alt: tonalNote.alt === 0 ? '' : (tonalNote.alt as any),
+                })
+              }}
+            >
+              known as {simpleNote}
+            </Button>
+            .
+          </Alert>
+        )}
+
         <ScaleSelect
           disabled={state.isPlaying}
           onChange={(scaleName) => {
