@@ -11,8 +11,7 @@ import {
   ScaleSelect,
   SimplifiedNote,
 } from '../components'
-import { useScale } from '../hooks/useScale'
-import { useSynth } from '../hooks/useSynth'
+import { useScale, useSynth } from '../hooks'
 
 export default function Home() {
   const {
