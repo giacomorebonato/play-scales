@@ -109,7 +109,7 @@ export default function Home() {
         {simpleNote && (
           <Alert status='info' mb='2'>
             <AlertIcon />
-            The note {fullNote} is better&nbsp;
+            {fullNote} is better&nbsp;
             <Button
               color='pink.200'
               _hover={{
