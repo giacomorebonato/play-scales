@@ -1,10 +1,13 @@
+import * as Tonal from '@tonaljs/tonal'
 import React from 'react'
 import * as Tone from 'tone'
 import { Synth } from 'tone'
 
 export const useSynth = () => {
-  const [synth, setSynth] = React.useState<Synth>(null)
+  const [isPlaying, setIsPlaying] = React.useState(false)
   const [currentNote, setCurrentNote] = React.useState<string>()
+  const [synth, setSynth] = React.useState<Synth>(null)
+  const sequence = React.useRef<Tone.Sequence<string>>()
 
   React.useEffect(() => {
     if (process.browser) {
@@ -26,12 +29,47 @@ export const useSynth = () => {
     }
   }, [])
 
+  const stopSequence = () => {
+    sequence.current.stop()
+    sequence.current.clear()
+
+    setIsPlaying(false)
+    Tone.Transport.stop()
+  }
+  const play = async (note: string) => {
+    await Tone.start()
+    synth.triggerAttackRelease(note, '8n')
+  }
+
   return {
-    play: async (note: string) => {
+    currentNote,
+    isPlaying,
+    play,
+    playSequence: async (notes: string[]) => {
       await Tone.start()
-      synth.triggerAttackRelease(note, '8n')
+      sequence.current = new Tone.Sequence(
+        (time, note) => {
+          if (note === 'end') {
+            stopSequence()
+
+            return
+          }
+          const currentNote = Tonal.Note.get(note).name
+
+          setCurrentNote(currentNote)
+          play(note)
+        },
+        [...notes, 'end'],
+        1.2
+      )
+
+      sequence.current.loop = false
+
+      setIsPlaying(true)
+      sequence.current.start()
+      Tone.Transport.start()
     },
-    playSequence: () => {},
+    stopSequence,
     synth,
   }
 }
