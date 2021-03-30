@@ -1,6 +1,4 @@
 import {
-  Alert,
-  AlertIcon,
   Box,
   Button,
   ButtonGroup,
@@ -14,7 +12,13 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import React from 'react'
 import * as Tone from 'tone'
-import { Header, NoteSelect, NotesRow, ScaleSelect } from '../components'
+import {
+  Header,
+  NoteSelect,
+  NotesRow,
+  ScaleSelect,
+  SimplifiedNote,
+} from '../components'
 import { useSynth } from '../hooks/useSynth'
 import { altToSymbol } from '../lib/altToSymbol'
 
@@ -39,20 +43,11 @@ export default function Home() {
     scale: 'major',
     isPlaying: false,
   })
-  const [simpleNote, setSimpleNote] = React.useState<string>()
   const [currentNote, setCurrentNote] = React.useState<string>(null)
   const { play } = useSynth()
 
   const fullNote = `${state.note}${altToSymbol(state.alt)}`
   const scale = Tonal.Scale.get(`${fullNote}4 ${state.scale}`)
-
-  React.useEffect(() => {
-    const simplified = Tonal.Note.simplify(fullNote)
-
-    if (simplified !== simpleNote && simplified !== fullNote) {
-      setSimpleNote(Tonal.Note.simplify(fullNote))
-    }
-  }, [state.note, state.alt])
 
   const stopSequence = () => {
     setCurrentNote(null)
@@ -63,9 +58,10 @@ export default function Home() {
     Tone.Transport.stop()
   }
 
-  const scaleNotes = scale.notes
-
-  scaleNotes.push(Tonal.Note.transpose(scale.notes[0], '8M'))
+  const scaleNotes = [
+    ...scale.notes,
+    Tonal.Note.transpose(scale.notes[0], '8M'),
+  ]
 
   const sequence = React.useRef<Tone.Sequence<string>>()
 
@@ -106,31 +102,17 @@ export default function Home() {
           </Select>
         </FormControl>
 
-        {simpleNote && (
-          <Alert status='info' mb='2'>
-            <AlertIcon />
-            {fullNote} is better&nbsp;
-            <Button
-              color='pink.200'
-              _hover={{
-                color: 'pink.400',
-              }}
-              variant='unstyled'
-              onClick={() => {
-                setSimpleNote(null)
-                const tonalNote = Tonal.Note.get(simpleNote)
-                setState({
-                  ...state,
-                  note: tonalNote.letter,
-                  alt: tonalNote.alt === 0 ? '' : (tonalNote.alt as any),
-                })
-              }}
-            >
-              known as {simpleNote}
-            </Button>
-            .
-          </Alert>
-        )}
+        <SimplifiedNote
+          noteLetter={state.note}
+          alt={state.alt}
+          onChange={({ noteLetter, alt }) => {
+            setState({
+              ...state,
+              note: noteLetter,
+              alt,
+            })
+          }}
+        />
 
         <ScaleSelect
           disabled={state.isPlaying}

@@ -1,4 +1,5 @@
-export const altToSymbol = (alt: '' | -1 | 1) => {
+export type Alt = '' | -1 | 1
+export const altToSymbol = (alt: Alt) => {
   switch (alt) {
     case '':
       return ''
