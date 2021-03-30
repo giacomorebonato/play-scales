@@ -1,5 +1,4 @@
 import { Box, Container } from '@chakra-ui/react'
-import * as Tonal from '@tonaljs/tonal'
 import Head from 'next/head'
 import React from 'react'
 import {
@@ -12,28 +11,20 @@ import {
   ScaleSelect,
   SimplifiedNote,
 } from '../components'
+import { useScale } from '../hooks/useScale'
 import { useSynth } from '../hooks/useSynth'
-import { altToSymbol } from '../lib/altToSymbol'
-
-type State = {
-  alt: 1 | -1 | ''
-  noteLetter: string
-  scale: string
-}
 
 export default function Home() {
-  const [state, setState] = React.useState<State>({
-    alt: '',
-    noteLetter: 'C',
-    scale: 'major',
-  })
+  const {
+    state,
+    setAlt,
+    setNoteLetter,
+    setScaleName,
+    setSimplified,
+  } = useScale()
+  const { alt, noteLetter, scaleNotes, scaleName } = state
   const { currentNote, isPlaying, playSequence, stopSequence } = useSynth()
-  const fullNote = `${state.noteLetter}${altToSymbol(state.alt)}`
-  const scale = Tonal.Scale.get(`${fullNote}4 ${state.scale}`)
-  const scaleNotes = [
-    ...scale.notes,
-    Tonal.Note.transpose(scale.notes[0], '8M'),
-  ]
+
   return (
     <Container pt='4' pb='4'>
       <Head>
@@ -44,50 +35,29 @@ export default function Home() {
       <Box as='form'>
         <NoteSelect
           isDisabled={isPlaying}
-          note={state.noteLetter}
-          onChange={(note) => {
-            setState({ ...state, noteLetter: note })
-          }}
+          note={noteLetter}
+          onChange={setNoteLetter}
         />
-        <AltSelect
-          isDisabled={isPlaying}
-          alt={state.alt}
-          onChange={(alt) => {
-            setState({ ...state, alt })
-          }}
-        />
+        <AltSelect isDisabled={isPlaying} alt={alt} onChange={setAlt} />
         <SimplifiedNote
-          noteLetter={state.noteLetter}
-          alt={state.alt}
-          onChange={({ noteLetter, alt }) => {
-            setState({
-              ...state,
-              noteLetter: noteLetter,
-              alt,
-            })
-          }}
+          noteLetter={noteLetter}
+          alt={alt}
+          onChange={setSimplified}
         />
         <ScaleSelect
           disabled={isPlaying}
-          onChange={(scaleName) => {
-            setState({
-              ...state,
-              scale: scaleName,
-            })
-          }}
-          value={state.scale}
+          onChange={setScaleName}
+          value={scaleName}
         />
         <PlayPause
           isPlaying={isPlaying}
           onPlay={async () => {
             await playSequence(scaleNotes)
           }}
-          onPause={() => {
-            stopSequence()
-          }}
+          onPause={stopSequence}
         />
       </Box>
-      <MusicSheet notes={scale.notes} />
+      <MusicSheet notes={scaleNotes} />
       <NotesRow notes={scaleNotes} currentNote={currentNote} />
     </Container>
   )
