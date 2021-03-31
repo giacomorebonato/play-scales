@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/layout'
 import AbcNotation from '@tonaljs/abc-notation'
 import abcjs from 'abcjs'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useMeasure } from 'react-use'
 
 type MusicSheetProps = {
@@ -25,7 +25,7 @@ K:
     abcjs.renderAbc(ID, abcText, {
       add_classes: true,
       responsive: 'resize',
-      staffwidth: 300,
+      staffwidth: 300
     })
   }, [notes, width])
 

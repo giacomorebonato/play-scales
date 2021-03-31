@@ -13,7 +13,7 @@ const notes = Tonal.Note.names()
 export const NoteSelect: React.FC<NoteSelectProps> = ({
   isDisabled,
   note,
-  onChange,
+  onChange
 }) => (
   <FormControl as='fieldset' mb='4'>
     <FormLabel>Root note</FormLabel>

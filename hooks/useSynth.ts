@@ -14,14 +14,14 @@ export const useSynth = () => {
       const newSynth = new Synth({
         oscillator: {
           type: 'triangle8',
-          volume: 2,
+          volume: 2
         },
         envelope: {
           attack: 2,
           decay: 1,
           sustain: 0.4,
-          release: 4,
-        },
+          release: 4
+        }
       })
       setSynth(newSynth)
 
@@ -70,6 +70,6 @@ export const useSynth = () => {
       Tone.Transport.start()
     },
     stopSequence,
-    synth,
+    synth
   }
 }

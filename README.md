@@ -15,7 +15,7 @@ npm run dev
 Using `yarn`:
 
 ```bash
-yarn install 
+yarn install
 yarn dev
 ```
 

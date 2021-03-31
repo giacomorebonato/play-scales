@@ -12,14 +12,14 @@ export const useScale = () => {
   const [state, updateState] = useImmer<ScaleState>({
     alt: '',
     noteLetter: 'C',
-    scaleName: 'major',
+    scaleName: 'major'
   })
   const { alt, noteLetter, scaleName } = state
   const noteFull = `${noteLetter}${altToSymbol(alt)}`
   const scale = Tonal.Scale.get(`${noteFull}4 ${scaleName}`)
   const scaleNotes = [
     ...scale.notes,
-    Tonal.Note.transpose(scale.notes[0], '8M'),
+    Tonal.Note.transpose(scale.notes[0], '8M')
   ]
 
   return {
@@ -44,6 +44,6 @@ export const useScale = () => {
       updateState((draft) => {
         draft.scaleName = scaleName
       })
-    },
+    }
   }
 }

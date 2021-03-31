@@ -12,7 +12,7 @@ type SimplifiedNoteProps = {
 export const SimplifiedNote: React.FC<SimplifiedNoteProps> = ({
   noteLetter,
   alt,
-  onChange,
+  onChange
 }) => {
   const [simpleNote, setSimpleNote] = React.useState<string>()
   const fullNote = `${noteLetter}${altToSymbol(alt)}`
@@ -34,7 +34,7 @@ export const SimplifiedNote: React.FC<SimplifiedNoteProps> = ({
       <Button
         color='pink.200'
         _hover={{
-          color: 'pink.400',
+          color: 'pink.400'
         }}
         variant='unstyled'
         onClick={() => {
@@ -43,7 +43,7 @@ export const SimplifiedNote: React.FC<SimplifiedNoteProps> = ({
 
           onChange({
             noteLetter: tonalNote.letter,
-            alt: tonalNote.alt === 0 ? '' : (tonalNote.alt as Alt),
+            alt: tonalNote.alt === 0 ? '' : (tonalNote.alt as Alt)
           })
         }}
       >

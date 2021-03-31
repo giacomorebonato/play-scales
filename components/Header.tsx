@@ -7,7 +7,7 @@ export const Header: React.FC = () => (
     as='header'
     flexDirection={{
       base: 'column',
-      md: 'row',
+      md: 'row'
     }}
     alignItems='center'
     mb='4'
@@ -19,7 +19,7 @@ export const Header: React.FC = () => (
     <Box
       fontSize={{
         base: 'sm',
-        md: 'normal',
+        md: 'normal'
       }}
     >
       <MyLink href='https://github.com/giacomorebonato/play-scales'>

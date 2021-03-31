@@ -9,7 +9,7 @@ import {
   NotesRow,
   PlayPause,
   ScaleSelect,
-  SimplifiedNote,
+  SimplifiedNote
 } from '../components'
 import { useScale, useSynth } from '../hooks'
 
@@ -19,7 +19,7 @@ export default function Home() {
     setAlt,
     setNoteLetter,
     setScaleName,
-    setSimplified,
+    setSimplified
   } = useScale()
   const { alt, noteLetter, scaleNotes, scaleName } = state
   const { currentNote, isPlaying, playSequence, stopSequence } = useSynth()

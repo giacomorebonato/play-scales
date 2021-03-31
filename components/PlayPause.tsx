@@ -10,7 +10,7 @@ type PlayPauseProps = {
 export const PlayPause: React.FC<PlayPauseProps> = ({
   isPlaying,
   onPlay,
-  onPause,
+  onPause
 }) => {
   return (
     <ButtonGroup spacing='6' pb='2' display='flex'>
