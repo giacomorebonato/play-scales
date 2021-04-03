@@ -26,7 +26,7 @@ export default function Home() {
   const { currentNote, isPlaying, playSequence, stopSequence } = useSynth()
 
   return (
-    <Container pt='4' pb='4'>
+    <Container pt='4' pb='4' pl='2' pr='2'>
       <Head>
         <title>play-scales</title>
         <link rel='icon' href='/favicon.ico' />
