@@ -11,7 +11,7 @@ type AltSelectProps = {
 export const AltSelect: React.FC<AltSelectProps> = ({
   isDisabled,
   alt,
-  onChange,
+  onChange
 }) => {
   return (
     <FormControl as='fieldset' mb='4'>

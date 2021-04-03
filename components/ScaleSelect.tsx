@@ -13,7 +13,7 @@ const scales = Scale.names().sort()
 export const ScaleSelect: React.FC<ScaleSelectProps> = ({
   disabled,
   onChange,
-  value,
+  value
 }) => (
   <FormControl as='fieldset' mb='4'>
     <FormLabel>Scale name</FormLabel>
