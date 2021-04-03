@@ -3,6 +3,7 @@ import Head from 'next/head'
 import React from 'react'
 import {
   AltSelect,
+  Chords,
   Header,
   MusicSheet,
   NoteSelect,
@@ -58,6 +59,7 @@ export default function Home() {
       </Box>
       <MusicSheet notes={scaleNotes} />
       <NotesRow notes={scaleNotes} currentNote={currentNote} />
+      <Chords tonic={noteLetter} />
     </Container>
   )
 }

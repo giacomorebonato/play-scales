@@ -12,7 +12,7 @@ export const NotesRow: React.FC<NotesRowProps> = ({ currentNote, notes }) => {
   const { play } = useSynth()
 
   return (
-    <Flex mt='2'>
+    <Flex mt='2' mb='2'>
       {notes.map((note, i) => {
         const tonalNote = Note.get(note)
         let alt = ''
