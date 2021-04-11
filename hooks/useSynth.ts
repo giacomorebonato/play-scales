@@ -1,32 +1,51 @@
 import * as Tonal from '@tonaljs/tonal'
 import React from 'react'
 import * as Tone from 'tone'
-import { Synth } from 'tone'
+import { PolySynth, Synth } from 'tone'
+import { RecursivePartial } from 'tone/build/esm/core/util/Interface'
+
+const toneStart = async () => {
+  await Tone.start()
+
+  document.querySelectorAll('button').forEach((button) => {
+    button.removeEventListener('click', toneStart)
+  })
+}
+
+const SYNTH_OPTIONS: RecursivePartial<Tone.SynthOptions> = {
+  oscillator: {
+    type: 'triangle8',
+    volume: 2
+  },
+  envelope: {
+    attack: 2,
+    decay: 1,
+    sustain: 0.4,
+    release: 4
+  }
+}
 
 export const useSynth = () => {
   const [isPlaying, setIsPlaying] = React.useState(false)
   const [currentNote, setCurrentNote] = React.useState<string>()
   const [synth, setSynth] = React.useState<Synth>(null)
+  const [polySynth, setPolySynth] = React.useState<PolySynth>(null)
   const sequence = React.useRef<Tone.Sequence<string>>()
 
   React.useEffect(() => {
-    if (process.browser) {
-      const newSynth = new Synth({
-        oscillator: {
-          type: 'triangle8',
-          volume: 2
-        },
-        envelope: {
-          attack: 2,
-          decay: 1,
-          sustain: 0.4,
-          release: 4
-        }
-      })
-      setSynth(newSynth)
+    if (!process.browser) return
 
-      newSynth.toDestination()
-    }
+    const newSynth = new Synth(SYNTH_OPTIONS)
+    setSynth(newSynth)
+    const polySynth = new PolySynth(Synth, SYNTH_OPTIONS)
+    setPolySynth(polySynth)
+
+    polySynth.toDestination()
+    newSynth.toDestination()
+
+    document.querySelectorAll('button').forEach((button) => {
+      button.addEventListener('click', toneStart)
+    })
   }, [])
 
   const stopSequence = () => {
@@ -36,17 +55,20 @@ export const useSynth = () => {
     setIsPlaying(false)
     Tone.Transport.stop()
   }
-  const play = async (note: string) => {
-    await Tone.start()
+  const playNote = async (note: string) => {
     synth.triggerAttackRelease(note, '8n')
   }
 
   return {
     currentNote,
     isPlaying,
-    play,
+    play: playNote,
+    playChord: async (notes: string[]) => {
+      const mappedNotes = notes.map((note) => `${note}4`)
+
+      polySynth.triggerAttackRelease(mappedNotes, 1, undefined, 0.4)
+    },
     playSequence: async (notes: string[]) => {
-      await Tone.start()
       sequence.current = new Tone.Sequence(
         (time, note) => {
           if (note === 'end') {
@@ -57,7 +79,7 @@ export const useSynth = () => {
           const currentNote = Tonal.Note.get(note).name
 
           setCurrentNote(currentNote)
-          play(note)
+          playNote(note)
         },
         [...notes, 'end'],
         1.2

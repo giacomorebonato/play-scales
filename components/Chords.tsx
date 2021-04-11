@@ -7,12 +7,14 @@ import {
   PopoverBody,
   PopoverCloseButton,
   PopoverContent,
+  PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
   UnorderedList
 } from '@chakra-ui/react'
 import * as Tonal from '@tonaljs/tonal'
 import React from 'react'
+import { useSynth } from '../hooks'
 
 type ChordsProps = {
   tonic: string
@@ -24,6 +26,8 @@ type ChordsBoxProps = {
 }
 
 const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
+  const { playChord } = useSynth()
+
   return (
     <Box mt='2' mb='2'>
       <Text fontWeight='bold' mb='2'>
@@ -49,7 +53,7 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
               <PopoverContent>
                 <PopoverArrow />
                 <PopoverCloseButton />
-                <PopoverHeader>{data.name}</PopoverHeader>
+                <PopoverHeader fontWeight='bold'>{data.name}</PopoverHeader>
                 <PopoverBody>
                   <UnorderedList styleType='none' ml='0'>
                     <ListItem>
@@ -66,6 +70,15 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
                     </ListItem>
                   </UnorderedList>
                 </PopoverBody>
+                <PopoverFooter>
+                  <Button
+                    onClick={() => {
+                      playChord(data.notes)
+                    }}
+                  >
+                    Play
+                  </Button>
+                </PopoverFooter>
               </PopoverContent>
             </Popover>
           )
