@@ -49,7 +49,6 @@ K:
       paddingbottom: 0,
       paddingTop: 0,
       clickListener: (abcElem) => {
-        console.log(abcElem)
         const lastClicked = abcElem.midiPitches
         if (!lastClicked) {
           return

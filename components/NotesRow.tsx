@@ -2,6 +2,7 @@ import { Button, Flex } from '@chakra-ui/react'
 import { Note } from '@tonaljs/tonal'
 import React from 'react'
 import { useSynth } from '../hooks/useSynth'
+import { Alt, altToSymbol } from '../lib/altToSymbol'
 
 type NotesRowProps = {
   currentNote: string
@@ -15,13 +16,7 @@ export const NotesRow: React.FC<NotesRowProps> = ({ currentNote, notes }) => {
     <Flex mt='2' mb='2'>
       {notes.map((note, i) => {
         const tonalNote = Note.get(note)
-        let alt = ''
-
-        if (tonalNote.alt === 1) {
-          alt = '#'
-        } else if (tonalNote.alt === -1) {
-          alt = 'b'
-        }
+        const alt = altToSymbol(tonalNote.alt as Alt)
 
         return (
           <Button

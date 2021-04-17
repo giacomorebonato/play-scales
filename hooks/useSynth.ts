@@ -1,4 +1,5 @@
 import * as Tonal from '@tonaljs/tonal'
+import { Note } from '@tonaljs/tonal'
 import React from 'react'
 import * as Tone from 'tone'
 import { RecursivePartial } from 'tone/build/esm/core/util/Interface'
@@ -55,7 +56,7 @@ export const useSynth = () => {
     Tone.Transport.stop()
   }
   const playNote = async (note: string) => {
-    synth.triggerAttackRelease(note, '8n')
+    synth.triggerAttackRelease(Note.simplify(note), '8n')
   }
 
   return {
