@@ -27,12 +27,7 @@ K:
     abcjs.renderAbc(ID, abcText, {
       add_classes: true,
       responsive: 'resize',
-      staffwidth: 300,
-      clickListener: (abcelem) => {
-        if (abcelem.el_type === 'note') {
-          console.log(abcelem)
-        }
-      }
+      staffwidth: 500
     })
   }, [notes, width])
 
@@ -44,6 +39,9 @@ K:
         }
         .abcjs-title {
           font-size: 1em;
+        }
+        .abcjs-css-warning {
+          display: none;
         }
       `}</style>
       <Box
