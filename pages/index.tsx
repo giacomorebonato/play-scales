@@ -32,7 +32,7 @@ export default function Home() {
       pb='4'
       pl='2'
       pr='2'
-      maxW={{ base: 'container.sm', lg: 'container.md' }}
+      maxW={{ base: 'container.sm', md: 'container.md', lg: 'container.md' }}
     >
       <Head>
         <title>play-scales</title>

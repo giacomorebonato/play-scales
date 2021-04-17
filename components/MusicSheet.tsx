@@ -1,8 +1,10 @@
 import { Box } from '@chakra-ui/layout'
-import AbcNotation from '@tonaljs/abc-notation'
+import { AbcNotation, Midi } from '@tonaljs/tonal'
 import abcjs from 'abcjs'
+import 'abcjs/abcjs-audio.css'
 import React, { useEffect } from 'react'
 import { useMeasure } from 'react-use'
+import { useSynth } from '../hooks'
 
 type MusicSheetProps = {
   notes: string[]
@@ -11,24 +13,55 @@ type MusicSheetProps = {
 
 const ID = 'music-sheet'
 
+if (process.browser) {
+  // eslint-disable-next-line no-new
+  new abcjs.synth.CreateSynth()
+}
+
 export const MusicSheet: React.FC<MusicSheetProps> = ({ notes, title }) => {
   const [ref, { width }] = useMeasure()
+  const { playNote } = useSynth()
 
   useEffect(() => {
     if (width === 0) return
-    const text = notes.map(AbcNotation.scientificToAbcNotation).join(' ')
+    const text = notes
+      .map((note) => {
+        return (
+          `"${note.slice(0, note.length - 1)}"` +
+          AbcNotation.scientificToAbcNotation(note)
+        )
+      })
+      .join(' ')
     const abcText = `
 M:
 T: ${title}
+C:  
+R: "test"
 L: 1/4
 K: 
 |${text}|
   `
-    abcjs.renderAbc(ID, abcText, {
+    const visualObjs = abcjs.renderAbc(ID, abcText, {
       add_classes: true,
       responsive: 'resize',
-      staffwidth: 500
+      staffwidth: 300,
+      wrap: 'maxSpacing',
+      paddingbottom: 0,
+      paddingTop: 0,
+      clickListener: (abcElem) => {
+        console.log(abcElem)
+        const lastClicked = abcElem.midiPitches
+        if (!lastClicked) {
+          return
+        }
+
+        const noteName = Midi.midiToNoteName(lastClicked[0].pitch)
+
+        playNote(noteName)
+      }
     })
+
+    visualObjs[0].setUpAudio()
   }, [notes, width])
 
   return (
@@ -40,8 +73,14 @@ K:
         .abcjs-title {
           font-size: 1em;
         }
-        .abcjs-css-warning {
-          display: none;
+        .abcjs-chord {
+          font-size: 0.6em;
+        }
+        .abcjs-rhythm {
+          visibility: hidden;
+        }
+        svg * {
+          fill: black;
         }
       `}</style>
       <Box
