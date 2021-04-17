@@ -7,7 +7,6 @@ import {
   Header,
   MusicSheet,
   NoteSelect,
-  NotesRow,
   PlayPause,
   ScaleSelect,
   SimplifiedNote
@@ -24,7 +23,7 @@ export default function Home() {
     setSimplified
   } = useScale()
   const { alt, noteLetter, scaleNotes, scaleName } = state
-  const { currentNote, isPlaying, playSequence, stopSequence } = useSynth()
+  const { isPlaying, playSequence, stopSequence } = useSynth()
 
   return (
     <Container
@@ -68,7 +67,6 @@ export default function Home() {
         notes={scaleNotes}
         title={`${noteLetter}${altToSymbol(alt)} ${scaleName} scale`}
       />
-      <NotesRow notes={scaleNotes} currentNote={currentNote} />
       <Chords tonic={noteLetter} />
     </Container>
   )

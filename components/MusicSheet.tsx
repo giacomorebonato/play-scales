@@ -24,22 +24,19 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({ notes, title }) => {
 
   useEffect(() => {
     if (width === 0) return
+    const noteNames = notes.map((note) => note.slice(0, note.length - 1))
     const text = notes
-      .map((note) => {
-        return (
-          `"${note.slice(0, note.length - 1)}"` +
-          AbcNotation.scientificToAbcNotation(note)
-        )
-      })
+      .map((note) => AbcNotation.scientificToAbcNotation(note))
       .join(' ')
     const abcText = `
 M:
 T: ${title}
 C:  
-R: "test"
+R: "this is hidden"
 L: 1/4
 K: 
 |${text}|
+w: ${noteNames.join(' ')}
   `
     const visualObjs = abcjs.renderAbc(ID, abcText, {
       add_classes: true,
@@ -72,7 +69,7 @@ K:
         .abcjs-title {
           font-size: 1em;
         }
-        .abcjs-chord {
+        .abcjs-lyric {
           font-size: 0.6em;
         }
         .abcjs-rhythm {
