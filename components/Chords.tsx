@@ -33,7 +33,13 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
       <Text fontWeight='bold' mb='2'>
         {title}
       </Text>
-      <Grid templateColumns='repeat(4, 1fr)' gap={2}>
+      <Grid
+        templateColumns={{
+          base: 'repeat(4, 1fr)',
+          lg: 'repeat(7, 1fr)'
+        }}
+        gap={2}
+      >
         {chords.map((chord) => {
           const data = Tonal.Chord.get(chord)
 
@@ -46,11 +52,12 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
                   flex='1'
                   textAlign='center'
                   padding='1'
+                  fontSize='sm'
                 >
                   {chord}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent>
+              <PopoverContent ml='1' mr='2'>
                 <PopoverArrow />
                 <PopoverCloseButton />
                 <PopoverHeader fontWeight='bold'>{data.name}</PopoverHeader>
@@ -66,7 +73,7 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
                       <Text fontWeight='bold' display='inline'>
                         Aliases:
                       </Text>{' '}
-                      {data.aliases.filter((a) => a).join(' - ')}
+                      {data.aliases.filter((a) => !!a).join(' - ')}
                     </ListItem>
                   </UnorderedList>
                 </PopoverBody>

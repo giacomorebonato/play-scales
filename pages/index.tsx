@@ -13,6 +13,7 @@ import {
   SimplifiedNote
 } from '../components'
 import { useScale, useSynth } from '../hooks'
+import { altToSymbol } from '../lib/altToSymbol'
 
 export default function Home() {
   const {
@@ -26,7 +27,13 @@ export default function Home() {
   const { currentNote, isPlaying, playSequence, stopSequence } = useSynth()
 
   return (
-    <Container pt='4' pb='4' pl='2' pr='2'>
+    <Container
+      pt='4'
+      pb='4'
+      pl='2'
+      pr='2'
+      maxW={{ base: 'container.sm', lg: 'container.md' }}
+    >
       <Head>
         <title>play-scales</title>
         <link rel='icon' href='/favicon.ico' />
@@ -57,7 +64,10 @@ export default function Home() {
           onPause={stopSequence}
         />
       </Box>
-      <MusicSheet notes={scaleNotes} />
+      <MusicSheet
+        notes={scaleNotes}
+        title={`${noteLetter}${altToSymbol(alt)} ${scaleName} scale`}
+      />
       <NotesRow notes={scaleNotes} currentNote={currentNote} />
       <Chords tonic={noteLetter} />
     </Container>

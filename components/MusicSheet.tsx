@@ -6,11 +6,12 @@ import { useMeasure } from 'react-use'
 
 type MusicSheetProps = {
   notes: string[]
+  title: string
 }
 
 const ID = 'music-sheet'
 
-export const MusicSheet: React.FC<MusicSheetProps> = ({ notes }) => {
+export const MusicSheet: React.FC<MusicSheetProps> = ({ notes, title }) => {
   const [ref, { width }] = useMeasure()
 
   useEffect(() => {
@@ -18,6 +19,7 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({ notes }) => {
     const text = notes.map(AbcNotation.scientificToAbcNotation).join(' ')
     const abcText = `
 M:
+T: ${title}
 L: 1/4
 K: 
 |${text}|
@@ -25,12 +27,25 @@ K:
     abcjs.renderAbc(ID, abcText, {
       add_classes: true,
       responsive: 'resize',
-      staffwidth: 300
+      staffwidth: 300,
+      clickListener: (abcelem) => {
+        if (abcelem.el_type === 'note') {
+          console.log(abcelem)
+        }
+      }
     })
   }, [notes, width])
 
   return (
     <div ref={ref}>
+      <style jsx global>{`
+        .abcjs-note_selected {
+          fill: var(--chakra-colors-pink-300);
+        }
+        .abcjs-title {
+          font-size: 1em;
+        }
+      `}</style>
       <Box
         id={ID}
         display='flex'

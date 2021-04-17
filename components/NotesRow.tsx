@@ -9,7 +9,7 @@ type NotesRowProps = {
 }
 
 export const NotesRow: React.FC<NotesRowProps> = ({ currentNote, notes }) => {
-  const { play } = useSynth()
+  const { playNote } = useSynth()
 
   return (
     <Flex mt='2' mb='2'>
@@ -26,7 +26,7 @@ export const NotesRow: React.FC<NotesRowProps> = ({ currentNote, notes }) => {
         return (
           <Button
             onClick={() => {
-              play(note)
+              playNote(note)
             }}
             padding='2'
             flex='1'

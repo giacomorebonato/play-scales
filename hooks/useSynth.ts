@@ -1,7 +1,6 @@
 import * as Tonal from '@tonaljs/tonal'
 import React from 'react'
 import * as Tone from 'tone'
-import { PolySynth, Synth } from 'tone'
 import { RecursivePartial } from 'tone/build/esm/core/util/Interface'
 
 const toneStart = async () => {
@@ -28,16 +27,16 @@ const SYNTH_OPTIONS: RecursivePartial<Tone.SynthOptions> = {
 export const useSynth = () => {
   const [isPlaying, setIsPlaying] = React.useState(false)
   const [currentNote, setCurrentNote] = React.useState<string>()
-  const [synth, setSynth] = React.useState<Synth>(null)
-  const [polySynth, setPolySynth] = React.useState<PolySynth>(null)
+  const [synth, setSynth] = React.useState<Tone.Synth>(null)
+  const [polySynth, setPolySynth] = React.useState<Tone.PolySynth>(null)
   const sequence = React.useRef<Tone.Sequence<string>>()
 
   React.useEffect(() => {
-    if (!process.browser) return
+    if (!process.browser && process.env.NODE_ENV !== 'test') return
 
-    const newSynth = new Synth(SYNTH_OPTIONS)
+    const newSynth = new Tone.Synth(SYNTH_OPTIONS)
     setSynth(newSynth)
-    const polySynth = new PolySynth(Synth, SYNTH_OPTIONS)
+    const polySynth = new Tone.PolySynth(Tone.Synth, SYNTH_OPTIONS)
     setPolySynth(polySynth)
 
     polySynth.toDestination()
@@ -62,7 +61,7 @@ export const useSynth = () => {
   return {
     currentNote,
     isPlaying,
-    play: playNote,
+    playNote,
     playChord: async (notes: string[]) => {
       const mappedNotes = notes.map((note) => `${note}4`)
 
