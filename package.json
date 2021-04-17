@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "lint": "prettier --write . && eslint . --ext .ts,.tsx",
+    "lint": "prettier --write . && tsc && eslint . --ext .ts,.tsx",
     "start": "next start",
     "test": "jest"
   },

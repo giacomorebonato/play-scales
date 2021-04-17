@@ -3,7 +3,7 @@ import { useImmer } from 'use-immer'
 import { Alt, altToSymbol } from '../lib/altToSymbol'
 
 type ScaleState = {
-  alt: 1 | -1 | ''
+  alt: Alt
   noteLetter: string
   scaleName: string
 }
