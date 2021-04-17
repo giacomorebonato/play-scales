@@ -36,7 +36,7 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
       <Grid
         templateColumns={{
           base: 'repeat(4, 1fr)',
-          md: 'repeat(7, 1fr)'
+          sm: 'repeat(7, 1fr)'
         }}
         gap={2}
       >
