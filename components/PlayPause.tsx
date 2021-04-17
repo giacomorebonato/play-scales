@@ -9,7 +9,7 @@ type PlayPauseProps = {
 }
 
 const PlayIcon = () => <Icon as={BsPlayFill} />
-const StopIcon = () => <Icon as={BsStopFill} />
+const StopIcon = () => <Icon as={BsStopFill} textColor='green.200' />
 
 export const PlayPause: React.FC<PlayPauseProps> = ({
   isPlaying,
@@ -28,12 +28,11 @@ export const PlayPause: React.FC<PlayPauseProps> = ({
       >
         Play
       </Button>
-
       <Button
+        bgColor='whiteAlpha.800'
         leftIcon={<StopIcon />}
         flex='1'
         colorScheme='pink'
-        variant='outline'
         disabled={!isPlaying}
         onClick={onPause}
       >
