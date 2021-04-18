@@ -25,10 +25,10 @@ describe('useSynth', () => {
       const { result } = renderHook(() => useSynth())
 
       act(() => {
-        result.current.playNote('c4')
+        result.current.playNote('C4')
       })
 
-      expect(mockTriggerAttackRelease).toHaveBeenCalledWith('c4', '8n')
+      expect(mockTriggerAttackRelease).toHaveBeenCalledWith('C4', '8n')
     })
   })
 
