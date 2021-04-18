@@ -60,6 +60,9 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
                   playChord(data.notes)
                 }}
                 fontSize='xs'
+                pl='0'
+                pr='0'
+                textOverflow='ellipsis'
               >
                 {chord}
               </Button>

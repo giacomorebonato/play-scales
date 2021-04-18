@@ -29,10 +29,9 @@ export const PlayPause: React.FC<PlayPauseProps> = ({
         Play
       </Button>
       <Button
-        bgColor='whiteAlpha.800'
         leftIcon={<StopIcon />}
         flex='1'
-        colorScheme='pink'
+        colorScheme='teal'
         disabled={!isPlaying}
         onClick={onPause}
       >
