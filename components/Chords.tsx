@@ -55,7 +55,7 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
               isAttached
               variant='outline'
               w='100%'
-              key='play-pause'
+              key={`${title}-${chord}`}
             >
               <Button
                 flex={2}
@@ -72,7 +72,7 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
               >
                 {chord}
               </Button>
-              <Popover key={`${title}-${chord}`}>
+              <Popover>
                 <PopoverTrigger>
                   <IconButton
                     flex={1}
