@@ -41,6 +41,7 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
       <Grid
         templateColumns={{
           base: 'repeat(3, 1fr)',
+          sm: 'repeat(4, 1fr)',
           md: 'repeat(7, 1fr)'
         }}
         gap={2}
@@ -49,8 +50,13 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
           const data = Tonal.Chord.get(chord)
 
           return (
-            // eslint-disable-next-line react/jsx-key
-            <ButtonGroup size='sm' isAttached variant='outline' w='100%'>
+            <ButtonGroup
+              size='sm'
+              isAttached
+              variant='outline'
+              w='100%'
+              key='play-pause'
+            >
               <Button
                 flex={2}
                 colorScheme='pink'
