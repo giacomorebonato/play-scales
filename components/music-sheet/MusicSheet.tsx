@@ -1,44 +1,39 @@
 import { Box } from '@chakra-ui/layout'
-import { AbcNotation, Midi } from '@tonaljs/tonal'
-import abcjs from 'abcjs'
+import { Midi } from '@tonaljs/tonal'
+import { Midi as ToneMidi } from '@tonejs/midi'
+import ABCJS from 'abcjs'
 import 'abcjs/abcjs-audio.css'
 import React, { useEffect } from 'react'
 import { useMeasure } from 'react-use'
-import { useSynth } from '../hooks'
+import { useSynth } from '../../hooks'
+import { getAbcText } from './getAbcText'
 
 type MusicSheetProps = {
   notes: string[]
   title: string
+  onMidiCreated: (midi: ToneMidi) => void
 }
 
 const ID = 'music-sheet'
 
 if (process.browser) {
   // eslint-disable-next-line no-new
-  new abcjs.synth.CreateSynth()
+  new ABCJS.synth.CreateSynth()
 }
 
-export const MusicSheet: React.FC<MusicSheetProps> = ({ notes, title }) => {
+export const MusicSheet: React.FC<MusicSheetProps> = ({
+  notes,
+  onMidiCreated,
+  title
+}) => {
   const [ref, { width }] = useMeasure()
   const { playNote } = useSynth()
 
   useEffect(() => {
     if (width === 0) return
-    const noteNames = notes.map((note) => note.slice(0, note.length - 1))
-    const text = notes
-      .map((note) => AbcNotation.scientificToAbcNotation(note))
-      .join(' ')
-    const abcText = `
-M:
-T: ${title}
-C:  
-R: "this is hidden"
-L: 1/4
-K: 
-|${text}|
-w: ${noteNames.join(' ')}
-  `
-    const visualObjs = abcjs.renderAbc(ID, abcText, {
+
+    const abcText = getAbcText({ title, notes })
+    const visualObjs = ABCJS.renderAbc(ID, abcText, {
       add_classes: true,
       responsive: 'resize',
       staffwidth: 300,
@@ -56,6 +51,12 @@ w: ${noteNames.join(' ')}
         playNote(noteName)
       }
     })
+
+    const encoded = ABCJS.synth.getMidiFile(visualObjs[0], {
+      midiOutputType: 'binary'
+    })
+
+    onMidiCreated(new ToneMidi(encoded))
 
     visualObjs[0].setUpAudio()
   }, [notes, width])

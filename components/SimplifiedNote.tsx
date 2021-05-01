@@ -22,8 +22,10 @@ export const SimplifiedNote: React.FC<SimplifiedNoteProps> = ({
 
     if (simplified !== simpleNote && simplified !== fullNote) {
       setSimpleNote(Tonal.Note.simplify(fullNote))
+    } else {
+      setSimpleNote(null)
     }
-  }, [fullNote])
+  }, [noteLetter])
 
   if (!simpleNote) return null
 

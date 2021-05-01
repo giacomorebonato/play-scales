@@ -65,6 +65,9 @@ export default function Home() {
       </Box>
       <MusicSheet
         notes={scaleNotes}
+        onMidiCreated={(toneMidi) => {
+          console.log(toneMidi)
+        }}
         title={`${noteLetter}${altToSymbol(alt)} ${scaleName} scale`}
       />
       <Chords tonic={noteLetter} />

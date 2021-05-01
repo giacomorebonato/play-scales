@@ -1,5 +1,6 @@
 import * as Tonal from '@tonaljs/tonal'
 import { Note } from '@tonaljs/tonal'
+import { Midi as ToneMidi } from '@tonejs/midi'
 import React from 'react'
 import * as Tone from 'tone'
 import { RecursivePartial } from 'tone/build/esm/core/util/Interface'
@@ -67,6 +68,29 @@ export const useSynth = () => {
       const mappedNotes = notes.map((note) => `${note}4`)
 
       polySynth.triggerAttackRelease(mappedNotes, 1, undefined, 0.4)
+    },
+    playMidi: (currentMidi: ToneMidi) => {
+      const now = Tone.now() + 0.5
+      const synths: Tone.PolySynth[] = []
+
+      currentMidi.tracks.forEach((track) => {
+        const synth = new Tone.PolySynth(Tone.Synth, {
+          envelope: SYNTH_OPTIONS.envelope
+        }).toDestination()
+
+        synth.debug = true
+
+        synths.push(synth)
+
+        track.notes.forEach((note) => {
+          synth.triggerAttackRelease(
+            note.name,
+            note.duration,
+            note.time + now,
+            note.velocity
+          )
+        })
+      })
     },
     playSequence: async (notes: string[]) => {
       sequence.current = new Tone.Sequence(

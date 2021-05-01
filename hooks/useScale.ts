@@ -1,6 +1,10 @@
 import * as Tonal from '@tonaljs/tonal'
+import { useRouter } from 'next/router'
+import queryString from 'query-string'
+import React from 'react'
 import { useImmer } from 'use-immer'
 import { Alt, altToSymbol } from '../lib/altToSymbol'
+import { decrypt, encrypt } from '../lib/crypto'
 
 type ScaleState = {
   alt: Alt
@@ -8,12 +12,33 @@ type ScaleState = {
   scaleName: string
 }
 
+const INITIAL_STATE = {
+  alt: '',
+  noteLetter: 'C',
+  scaleName: 'major'
+} as const
+
 export const useScale = () => {
-  const [state, updateState] = useImmer<ScaleState>({
-    alt: '',
-    noteLetter: 'C',
-    scaleName: 'major'
-  })
+  const router = useRouter()
+  const [state, updateState] = useImmer<ScaleState>(INITIAL_STATE)
+
+  React.useEffect(() => {
+    const encoded = encodeURIComponent(encrypt(state))
+    router.push(`/?data=${encoded}`, undefined, { shallow: true })
+  }, [state])
+
+  React.useEffect(() => {
+    const query = queryString.parse(location.search, {
+      decode: true
+    })
+
+    if (query.data) {
+      const data = decrypt(query.data as string, INITIAL_STATE)
+
+      updateState(data as ScaleState)
+    }
+  }, [])
+
   const { alt, noteLetter, scaleName } = state
   const noteFull = `${noteLetter}${altToSymbol(alt)}`
   const scale = Tonal.Scale.get(`${noteFull}4 ${scaleName}`)
