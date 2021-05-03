@@ -1,27 +1,24 @@
 import { Button, ButtonGroup, Icon } from '@chakra-ui/react'
 import React from 'react'
 import { BsPlayFill, BsStopFill } from 'react-icons/bs'
+import { useSynth } from '../hooks'
 
 type PlayPauseProps = {
-  isPlaying: boolean
-  onPlay(): void
-  onPause(): void
+  notes: string[]
 }
 
 const PlayIcon = () => <Icon as={BsPlayFill} />
 const StopIcon = () => <Icon as={BsStopFill} textColor='green.200' />
 
-export const PlayPause: React.FC<PlayPauseProps> = ({
-  isPlaying,
-  onPlay,
-  onPause
-}) => {
+export const PlayPause: React.FC<PlayPauseProps> = ({ notes }) => {
+  const { isPlaying, playSequence, stopSequence } = useSynth()
+
   return (
     <ButtonGroup spacing='6' pb='2' display='flex'>
       <Button
         leftIcon={<PlayIcon />}
         flex='1'
-        onClick={onPlay}
+        onClick={() => playSequence(notes)}
         colorScheme='pink'
         variant='solid'
         disabled={isPlaying}
@@ -33,7 +30,7 @@ export const PlayPause: React.FC<PlayPauseProps> = ({
         flex='1'
         colorScheme='teal'
         disabled={!isPlaying}
-        onClick={onPause}
+        onClick={stopSequence}
       >
         Stop
       </Button>

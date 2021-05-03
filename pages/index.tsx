@@ -13,7 +13,7 @@ import {
   SimplifiedNote
 } from '../components'
 import { SynthContext } from '../contexts/synth-context'
-import { useScale, useSynth } from '../hooks'
+import { useScale } from '../hooks'
 import { SYNTH_OPTIONS } from '../hooks/useSynth'
 import { altToSymbol } from '../lib/altToSymbol'
 
@@ -26,7 +26,6 @@ export default function Home() {
     setSimplified
   } = useScale()
   const { alt, noteLetter, scaleNotes, scaleName } = state
-  const { isPlaying, playSequence, stopSequence } = useSynth()
   let synth: Tone.Synth
   let polySynth: Tone.PolySynth
 
@@ -34,6 +33,11 @@ export default function Home() {
     polySynth = new Tone.PolySynth(Tone.Synth, SYNTH_OPTIONS)
     synth = new Tone.Synth(SYNTH_OPTIONS)
   }
+
+  React.useEffect(() => {
+    polySynth = new Tone.PolySynth(Tone.Synth, SYNTH_OPTIONS)
+    synth = new Tone.Synth(SYNTH_OPTIONS)
+  }, [alt, scaleNotes, scaleName])
 
   return (
     <SynthContext.Provider value={{ polySynth, synth }}>
@@ -50,29 +54,15 @@ export default function Home() {
         </Head>
         <Header />
         <Box as='form'>
-          <NoteSelect
-            isDisabled={isPlaying}
-            note={noteLetter}
-            onChange={setNoteLetter}
-          />
-          <AltSelect isDisabled={isPlaying} alt={alt} onChange={setAlt} />
+          <NoteSelect note={noteLetter} onChange={setNoteLetter} />
+          <AltSelect alt={alt} onChange={setAlt} />
           <SimplifiedNote
             noteLetter={noteLetter}
             alt={alt}
             onChange={setSimplified}
           />
-          <ScaleSelect
-            disabled={isPlaying}
-            onChange={setScaleName}
-            value={scaleName}
-          />
-          <PlayPause
-            isPlaying={isPlaying}
-            onPlay={async () => {
-              await playSequence(scaleNotes)
-            }}
-            onPause={stopSequence}
-          />
+          <ScaleSelect onChange={setScaleName} value={scaleName} />
+          <PlayPause notes={scaleNotes} />
         </Box>
         <MusicSheet
           notes={scaleNotes}

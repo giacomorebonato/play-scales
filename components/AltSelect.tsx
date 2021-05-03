@@ -1,23 +1,20 @@
 import { FormControl, FormLabel, Select } from '@chakra-ui/react'
 import React from 'react'
+import { useSynth } from '../hooks'
 import { Alt } from '../lib/altToSymbol'
 
 type AltSelectProps = {
-  isDisabled: boolean
   alt: Alt
   onChange(alt: Alt): void
 }
 
-export const AltSelect: React.FC<AltSelectProps> = ({
-  isDisabled,
-  alt,
-  onChange
-}) => {
+export const AltSelect: React.FC<AltSelectProps> = ({ alt, onChange }) => {
+  const { isPlaying } = useSynth()
   return (
     <FormControl as='fieldset' mb='4'>
       <FormLabel>Alteration</FormLabel>
       <Select
-        disabled={isDisabled}
+        disabled={isPlaying}
         onChange={(e) => {
           const alt =
             e.target.value === 'natural'

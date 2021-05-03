@@ -9,11 +9,13 @@ jest.mock('tone', () => {
   return {
     start: mockStart,
     PolySynth: class {
+      triggerAttack = mockTriggerAttackRelease
       triggerAttackRelease = mockTriggerAttackRelease
       toDestination = jest.fn()
     } as any,
     Synth: class {
       toDestination = jest.fn()
+      triggerAttacl = mockTriggerAttackRelease
       triggerAttackRelease = mockTriggerAttackRelease
     }
   }
@@ -37,7 +39,7 @@ describe('useSynth', () => {
       const { result } = renderHook(() => useSynth())
 
       act(() => {
-        result.current.playChord(['c'])
+        result.current.attackChord(['c'])
       })
 
       expect(mockTriggerAttackRelease).toHaveBeenCalledWith(

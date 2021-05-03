@@ -33,27 +33,39 @@ export const useSynth = () => {
   const [currentNote, setCurrentNote] = React.useState<string>()
   const sequence = React.useRef<Tone.Sequence<string>>()
 
+  const init = React.useCallback(() => {
+    polySynth.toDestination()
+    synth.toDestination()
+  }, [synth, polySynth])
+
+  React.useEffect(() => {
+    init()
+  }, [synth, polySynth])
+
   React.useEffect(() => {
     if (!polySynth || !synth) return
 
-    polySynth.toDestination()
-    synth.toDestination()
+    init()
 
     document.querySelectorAll('button').forEach((button) => {
       button.addEventListener('click', toneStart)
     })
   }, [])
 
-  const stopSequence = () => {
+  const stopSequence = React.useCallback(() => {
     sequence.current.stop()
     sequence.current.clear()
 
     setIsPlaying(false)
     Tone.Transport.stop()
-  }
-  const playNote = async (note: string) => {
-    synth.triggerAttackRelease(Note.simplify(note), '8n')
-  }
+  }, [])
+
+  const playNote = React.useCallback(
+    (note: string) => {
+      synth.triggerAttackRelease(Note.simplify(note), '8n')
+    },
+    [synth]
+  )
 
   return {
     currentNote,
@@ -91,7 +103,7 @@ export const useSynth = () => {
         })
       })
     },
-    playSequence: async (notes: string[]) => {
+    playSequence: (notes: string[]) => {
       sequence.current = new Tone.Sequence(
         (time, note) => {
           if (note === 'end') {
@@ -116,6 +128,7 @@ export const useSynth = () => {
     },
     stopSequence,
     polySynth,
-    synth
+    synth,
+    init
   }
 }
