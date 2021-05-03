@@ -41,19 +41,29 @@ const InfoIcon = () => <Icon as={BsInfoCircle} />
 
 const ChordButton: React.FC<ChordButtonProps> = ({ children, notes }) => {
   const { attackChord, releaseChord } = useSynth()
-  const handleRelease = React.useCallback(() => {
-    releaseChord(notes)
-  }, [notes])
+  const handleRelease = React.useCallback(
+    (e) => {
+      e.preventDefault()
+      releaseChord(notes)
+    },
+    [notes]
+  )
 
-  const handleAttack = React.useCallback(() => {
-    attackChord(notes)
-  }, [notes])
+  const handleAttack = React.useCallback(
+    (e) => {
+      e.preventDefault()
+      attackChord(notes)
+    },
+    [notes]
+  )
 
   return (
     <Button
       flex={2}
       colorScheme='pink'
       variant='solid'
+      onTouchStart={handleAttack}
+      onTouchEnd={handleRelease}
       onMouseUp={handleRelease}
       onMouseDown={handleAttack}
       fontSize='xs'
