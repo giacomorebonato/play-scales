@@ -12,11 +12,16 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
   UnorderedList
 } from '@chakra-ui/react'
 import * as Tonal from '@tonaljs/tonal'
 import React from 'react'
 import { BsInfoCircle } from 'react-icons/bs'
+import { MdGraphicEq } from 'react-icons/md'
 import { useSynth } from '../hooks'
 
 type ChordsProps = {
@@ -28,11 +33,40 @@ type ChordsBoxProps = {
   chords: readonly string[]
 }
 
+type ChordButtonProps = {
+  notes: string[]
+}
+
 const InfoIcon = () => <Icon as={BsInfoCircle} />
 
-const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
-  const { playChord } = useSynth()
+const ChordButton: React.FC<ChordButtonProps> = ({ children, notes }) => {
+  const { attackChord, releaseChord } = useSynth()
+  const handleRelease = React.useCallback(() => {
+    releaseChord(notes)
+  }, [notes])
 
+  const handleAttack = React.useCallback(() => {
+    attackChord(notes)
+  }, [notes])
+
+  return (
+    <Button
+      flex={2}
+      colorScheme='pink'
+      variant='solid'
+      onMouseUp={handleRelease}
+      onMouseDown={handleAttack}
+      fontSize='xs'
+      pl='0'
+      pr='0'
+      textOverflow='ellipsis'
+    >
+      {children}
+    </Button>
+  )
+}
+
+const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
   return (
     <Box mt='2' mb='2'>
       <Text fontWeight='bold' mb='2'>
@@ -48,6 +82,7 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
       >
         {chords.map((chord) => {
           const data = Tonal.Chord.get(chord)
+          const notes = data.notes.map((note) => `${note}4`)
 
           return (
             <ButtonGroup
@@ -57,21 +92,7 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
               w='100%'
               key={`${title}-${chord}`}
             >
-              <Button
-                flex={2}
-                colorScheme='pink'
-                variant='solid'
-                mr='-px'
-                onClick={() => {
-                  playChord(data.notes)
-                }}
-                fontSize='xs'
-                pl='0'
-                pr='0'
-                textOverflow='ellipsis'
-              >
-                {chord}
-              </Button>
+              <ChordButton notes={notes}>{chord}</ChordButton>
               <Popover>
                 <PopoverTrigger>
                   <IconButton
@@ -115,6 +136,7 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
 export const Chords: React.FC<ChordsProps> = ({ tonic }) => {
   const majorKey = Tonal.Key.majorKey(tonic)
   const minorKey = Tonal.Key.minorKey(tonic)
+  const { polySynth } = useSynth()
 
   return (
     <Flex direction='column' mt='4'>
@@ -125,6 +147,26 @@ export const Chords: React.FC<ChordsProps> = ({ tonic }) => {
       <ChordsBox title='Natural minor key' chords={minorKey.natural.chords} />
       <ChordsBox title='Harmonic minor key' chords={minorKey.harmonic.chords} />
       <ChordsBox title='Melodic minor key' chords={minorKey.melodic.chords} />
+      <Slider
+        aria-label='volume slider'
+        defaultValue={0}
+        colorScheme='pink'
+        min={-7}
+        max={10}
+        step={0.1}
+        mt={4}
+        mb={4}
+        onChangeEnd={(value) => {
+          polySynth.volume.value = value
+        }}
+      >
+        <SliderTrack>
+          <SliderFilledTrack />
+        </SliderTrack>
+        <SliderThumb boxSize={6}>
+          <Box color='tomato' as={MdGraphicEq} />
+        </SliderThumb>
+      </Slider>
     </Flex>
   )
 }

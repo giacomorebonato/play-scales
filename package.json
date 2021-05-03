@@ -37,7 +37,7 @@
   "devDependencies": {
     "@emotion/babel-plugin": "^11.2.0",
     "@testing-library/react-hooks": "^5.1.2",
-    "@testing-library/user-event": "^13.1.6",
+    "@testing-library/user-event": "^13.1.8",
     "@types/crypto-js": "^4.0.1",
     "@types/jest": "^26.0.23",
     "@types/lodash": "^4.14.168",

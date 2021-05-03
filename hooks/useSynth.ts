@@ -4,6 +4,7 @@ import { Midi as ToneMidi } from '@tonejs/midi'
 import React from 'react'
 import * as Tone from 'tone'
 import { RecursivePartial } from 'tone/build/esm/core/util/Interface'
+import { SynthContext } from '../contexts/synth-context'
 
 const toneStart = async () => {
   await Tone.start()
@@ -13,7 +14,7 @@ const toneStart = async () => {
   })
 }
 
-const SYNTH_OPTIONS: RecursivePartial<Tone.SynthOptions> = {
+export const SYNTH_OPTIONS: RecursivePartial<Tone.SynthOptions> = {
   oscillator: {
     type: 'triangle8',
     volume: 2
@@ -27,22 +28,16 @@ const SYNTH_OPTIONS: RecursivePartial<Tone.SynthOptions> = {
 }
 
 export const useSynth = () => {
+  const { synth, polySynth } = React.useContext(SynthContext)
   const [isPlaying, setIsPlaying] = React.useState(false)
   const [currentNote, setCurrentNote] = React.useState<string>()
-  const [synth, setSynth] = React.useState<Tone.Synth>(null)
-  const [polySynth, setPolySynth] = React.useState<Tone.PolySynth>(null)
   const sequence = React.useRef<Tone.Sequence<string>>()
 
   React.useEffect(() => {
-    if (!process.browser && process.env.NODE_ENV !== 'test') return
-
-    const newSynth = new Tone.Synth(SYNTH_OPTIONS)
-    setSynth(newSynth)
-    const polySynth = new Tone.PolySynth(Tone.Synth, SYNTH_OPTIONS)
-    setPolySynth(polySynth)
+    if (!polySynth || !synth) return
 
     polySynth.toDestination()
-    newSynth.toDestination()
+    synth.toDestination()
 
     document.querySelectorAll('button').forEach((button) => {
       button.addEventListener('click', toneStart)
@@ -64,10 +59,14 @@ export const useSynth = () => {
     currentNote,
     isPlaying,
     playNote,
-    playChord: async (notes: string[]) => {
-      const mappedNotes = notes.map((note) => `${note}4`)
-
-      polySynth.triggerAttackRelease(mappedNotes, 1, undefined, 0.4)
+    releaseChord: (notes: string[]) => {
+      polySynth.triggerRelease(notes)
+    },
+    attackChord: (notes: string[]) => {
+      polySynth.triggerAttack(notes)
+    },
+    setVolume: (volume: number) => {
+      polySynth.volume.value = volume
     },
     playMidi: (currentMidi: ToneMidi) => {
       const now = Tone.now() + 0.5
@@ -116,6 +115,7 @@ export const useSynth = () => {
       Tone.Transport.start()
     },
     stopSequence,
+    polySynth,
     synth
   }
 }
