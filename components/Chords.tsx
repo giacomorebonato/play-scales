@@ -79,7 +79,7 @@ const ChordButton: React.FC<ChordButtonProps> = ({ children, notes }) => {
 const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
   return (
     <Box mt='2' mb='2'>
-      <Text fontWeight='bold' mb='2'>
+      <Text fontWeight='bold' mb='2' unselectable='on'>
         {title}
       </Text>
       <Grid
@@ -101,6 +101,7 @@ const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
               variant='outline'
               w='100%'
               key={`${title}-${chord}`}
+              unselectable='on'
             >
               <ChordButton notes={notes}>{chord}</ChordButton>
               <Popover>
@@ -157,26 +158,26 @@ export const Chords: React.FC<ChordsProps> = ({ tonic }) => {
       <ChordsBox title='Natural minor key' chords={minorKey.natural.chords} />
       <ChordsBox title='Harmonic minor key' chords={minorKey.harmonic.chords} />
       <ChordsBox title='Melodic minor key' chords={minorKey.melodic.chords} />
-      <Slider
-        aria-label='volume slider'
-        defaultValue={0}
-        colorScheme='pink'
-        min={-7}
-        max={10}
-        step={0.1}
-        mt={4}
-        mb={4}
-        onChangeEnd={(value) => {
-          polySynth.volume.value = value
-        }}
-      >
-        <SliderTrack>
-          <SliderFilledTrack />
-        </SliderTrack>
-        <SliderThumb boxSize={6}>
-          <Box color='tomato' as={MdGraphicEq} />
-        </SliderThumb>
-      </Slider>
+      <Box p={4} mt={2}>
+        <Slider
+          aria-label='volume slider'
+          defaultValue={0}
+          colorScheme='pink'
+          min={-7}
+          max={10}
+          step={0.1}
+          onChangeEnd={(value) => {
+            polySynth.volume.value = value
+          }}
+        >
+          <SliderTrack>
+            <SliderFilledTrack />
+          </SliderTrack>
+          <SliderThumb boxSize={6}>
+            <Box color='tomato' as={MdGraphicEq} />
+          </SliderThumb>
+        </Slider>
+      </Box>
     </Flex>
   )
 }
