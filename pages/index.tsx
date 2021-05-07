@@ -1,4 +1,4 @@
-import { Box, Container } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import Head from 'next/head'
 import React from 'react'
 import * as Tone from 'tone'
@@ -12,6 +12,7 @@ import {
   ScaleSelect,
   SimplifiedNote
 } from '../components'
+import { PageView } from '../components/PageView'
 import { SynthContext } from '../contexts/synth-context'
 import { useScale } from '../hooks'
 import { SYNTH_OPTIONS } from '../hooks/useSynth'
@@ -41,13 +42,7 @@ export default function Home() {
 
   return (
     <SynthContext.Provider value={{ polySynth, synth }}>
-      <Container
-        pt='4'
-        pb='4'
-        pl='2'
-        pr='2'
-        maxW={{ base: 'container.sm', md: 'container.md', lg: 'container.md' }}
-      >
+      <PageView>
         <Head>
           <title>play-scales</title>
           <link rel='icon' href='/favicon.ico' />
@@ -72,7 +67,7 @@ export default function Home() {
           title={`${noteLetter}${altToSymbol(alt)} ${scaleName} scale`}
         />
         <Chords tonic={noteLetter} />
-      </Container>
+      </PageView>
     </SynthContext.Provider>
   )
 }

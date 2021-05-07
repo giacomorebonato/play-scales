@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 export { AltSelect } from './AltSelect'
-export { Chords } from './Chords'
+export { Chords } from './chords'
 export { Header } from './Header'
 export { MyLink } from './MyLink'
 export { NoteSelect } from './NoteSelect'

@@ -1,27 +1,28 @@
 import { act, renderHook } from '@testing-library/react-hooks'
 import { useSynth } from '../useSynth'
 
-let mockStart: jest.Mock<any, any>
 const mockTriggerAttackRelease = jest.fn()
+const mockTriggerAttack = jest.fn()
 
-jest.mock('tone', () => {
-  mockStart = jest.fn().mockImplementation(() => Promise.resolve())
+jest.mock('react', () => {
   return {
-    start: mockStart,
-    PolySynth: class {
-      triggerAttack = mockTriggerAttackRelease
-      triggerAttackRelease = mockTriggerAttackRelease
-      toDestination = jest.fn()
-    } as any,
-    Synth: class {
-      toDestination = jest.fn()
-      triggerAttacl = mockTriggerAttackRelease
-      triggerAttackRelease = mockTriggerAttackRelease
-    }
+    ...jest.requireActual('react'),
+    useContext: () => ({
+      polySynth: {
+        toDestination: jest.fn(),
+        triggerAttack: mockTriggerAttack,
+        triggerAttackRelease: mockTriggerAttackRelease
+      },
+      synth: {
+        toDestination: jest.fn(),
+        triggerAttack: mockTriggerAttack,
+        triggerAttackRelease: mockTriggerAttackRelease
+      }
+    })
   }
 })
 
-describe('useSynth', () => {
+describe('useSynth()', () => {
   describe('playNote()', () => {
     it('calls triggerAttackRelease', () => {
       const { result } = renderHook(() => useSynth())
@@ -42,12 +43,7 @@ describe('useSynth', () => {
         result.current.attackChord(['c'])
       })
 
-      expect(mockTriggerAttackRelease).toHaveBeenCalledWith(
-        ['c4'],
-        1,
-        undefined,
-        0.4
-      )
+      expect(mockTriggerAttackRelease).toHaveBeenCalledWith('C4', '8n')
     })
   })
 })
