@@ -30,7 +30,7 @@ const InfoIcon = () => <Icon as={BsInfoCircle} />
 export const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
   return (
     <Box mt='2' mb='2'>
-      <Text fontWeight='bold' mb='2' unselectable='on'>
+      <Text fontWeight='bold' mb='2' unselectable='on' userSelect='none'>
         {title}
       </Text>
       <Grid
