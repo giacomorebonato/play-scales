@@ -51,7 +51,7 @@ export default function Home() {
       <PageView>
         <Head>
           <title>play-scales</title>
-          <link rel='icon' href='/favicon.ico' />
+          <meta name='viewport' content='width=device-width, initial-scale=1' />
         </Head>
         <Header />
         <Box as='form'>

@@ -7,6 +7,11 @@ export default class Document extends NextDocument {
     return (
       <Html lang='en'>
         <Head>
+          <meta charSet='utf-8' />
+          <meta
+            name='description'
+            content='website made for learning scales and fun'
+          />
           <link
             rel='icon'
             type='image/png'
