@@ -4853,7 +4853,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-import-resolver-node@npm:^0.3.4":
+"eslint-import-resolver-node@npm:*, eslint-import-resolver-node@npm:^0.3.4":
   version: 0.3.4
   resolution: "eslint-import-resolver-node@npm:0.3.4"
   dependencies:
@@ -8702,6 +8702,7 @@ __metadata:
     crypto-js: ^4.0.0
     eslint: ^7.25.0
     eslint-config-standard: ^16.0.2
+    eslint-import-resolver-node: ^0.3.4
     eslint-plugin-import: ^2.22.1
     eslint-plugin-node: ^11.1.0
     eslint-plugin-promise: ^5.1.0
@@ -8711,6 +8712,7 @@ __metadata:
     jest: ^26.6.3
     next: 10.2.0
     prettier: ^2.2.1
+    pts: ^0.10.5
     query-string: ^7.0.0
     react: 17.0.2
     react-dom: 17.0.2
@@ -8903,6 +8905,13 @@ __metadata:
   version: 1.8.0
   resolution: "psl@npm:1.8.0"
   checksum: 92d47c6257456878bfa8190d76b84de69bcefdc129eeee3f9fe204c15fd08d35fe5b8627033f39b455e40a9375a1474b25ff4ab2c5448dd8c8f75da692d0f5b4
+  languageName: node
+  linkType: hard
+
+"pts@npm:^0.10.5":
+  version: 0.10.5
+  resolution: "pts@npm:0.10.5"
+  checksum: e534d547861aa280e1adc2087bf438c8e19ece0e106a0c8f534dc202f05d6929a4f018d2dd801a8e9a87b5da6efbd55fc66c00a00005a7d91597b6d5d56c2ade
   languageName: node
   linkType: hard
 

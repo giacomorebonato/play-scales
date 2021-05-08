@@ -42,6 +42,8 @@ export const useSynth = () => {
     init()
   }, [synth, polySynth])
 
+  // const sound = Sound.from(synth, synth.context).analyze(128)
+
   React.useEffect(() => {
     if (!polySynth || !synth) return
 
