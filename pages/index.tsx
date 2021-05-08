@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react'
 import Head from 'next/head'
-import { CanvasSpace } from 'pts'
-import React, { useEffect } from 'react'
+import React from 'react'
 import * as Tone from 'tone'
 import {
   AltSelect,
@@ -42,10 +41,10 @@ export default function Home() {
     synth = new Tone.Synth(SYNTH_OPTIONS)
   }, [alt, scaleNotes, scaleName])
 
-  useEffect(() => {
-    const space = new CanvasSpace(ptsRef.current)
-    space.setup({ bgcolor: '#fff' })
-  })
+  // useEffect(() => {
+  //   const space = new CanvasSpace(ptsRef.current)
+  //   space.setup({ bgcolor: '#fff' })
+  // })
 
   return (
     <SynthContext.Provider value={{ polySynth, synth }}>
@@ -66,7 +65,7 @@ export default function Home() {
           <ScaleSelect onChange={setScaleName} value={scaleName} />
           <PlayPause notes={scaleNotes} />
         </Box>
-        <div ref={ptsRef} />
+        {/* <div ref={ptsRef} /> */}
         <MusicSheet
           notes={scaleNotes}
           onMidiCreated={(toneMidi) => {
