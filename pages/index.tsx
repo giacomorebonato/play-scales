@@ -27,7 +27,7 @@ export default function Home() {
     setSimplified
   } = useScale()
   const { alt, noteLetter, scaleNotes, scaleName } = state
-  const ptsRef = React.createRef<HTMLDivElement>()
+  // const ptsRef = React.createRef<HTMLDivElement>()
   let synth: Tone.Synth
   let polySynth: Tone.PolySynth
 
