@@ -10,7 +10,7 @@ export default class Document extends NextDocument {
           <meta charSet='utf-8' />
           <meta
             name='description'
-            content='website made for learning scales and fun'
+            content='website made for learning scales with fun'
           />
           <link
             rel='icon'

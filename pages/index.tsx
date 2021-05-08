@@ -65,7 +65,7 @@ export default function Home() {
           <ScaleSelect onChange={setScaleName} value={scaleName} />
           <PlayPause notes={scaleNotes} />
         </Box>
-        {/* <div ref={ptsRef} /> */}
+
         <MusicSheet
           notes={scaleNotes}
           onMidiCreated={(toneMidi) => {

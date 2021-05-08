@@ -23,7 +23,7 @@ type ChordPopoverProps = {
 
 export const ChordPopover: React.FC<ChordPopoverProps> = ({ chord }) => {
   return (
-    <Popover isLazy>
+    <Popover>
       <PopoverTrigger>
         <IconButton
           flex={1}

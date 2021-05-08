@@ -2,6 +2,7 @@ import { Box, ButtonGroup, Grid, Text } from '@chakra-ui/react'
 import * as Tonal from '@tonaljs/tonal'
 import React from 'react'
 import { ChordButton } from './chord-button'
+import { ChordPopover } from './chord-popover'
 
 type ChordsBoxProps = {
   title: string
@@ -31,10 +32,10 @@ export const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
               size='sm'
               isAttached
               variant='outline'
-              key={`${title}-${chord}-${i}`}
+              key={`${title}-${chord}`}
             >
               <ChordButton notes={notes}>{chord}</ChordButton>
-              {/* <ChordPopover chord={data} /> */}
+              <ChordPopover chord={data} />
             </ButtonGroup>
           )
         })}
