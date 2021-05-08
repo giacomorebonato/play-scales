@@ -53,7 +53,7 @@ export const ScaleSelect: React.FC<ScaleSelectProps> = ({
           ))}
         </Select>
         <Button onClick={setShowAllScales.toggle} flex={1} fontSize='sm'>
-          {showAllScales ? 'Basic scales' : 'Advanced scales'}
+          {showAllScales ? 'Basic' : 'Advanced'}
         </Button>
       </Flex>
     </FormControl>
