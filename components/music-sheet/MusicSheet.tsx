@@ -62,7 +62,14 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({
   }, [notes, width])
 
   return (
-    <div ref={ref} style={{ minHeight: '400px', width: '100%' }}>
+    <Box
+      ref={ref}
+      w='100%'
+      minH={{
+        sm: '136px',
+        md: '400px'
+      }}
+    >
       <style jsx global>{`
         .abcjs-note_selected {
           fill: var(--chakra-colors-pink-300);
@@ -88,6 +95,6 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({
         borderRadius='md'
         mt='2'
       />
-    </div>
+    </Box>
   )
 }
