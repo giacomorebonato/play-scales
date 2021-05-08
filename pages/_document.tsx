@@ -27,7 +27,7 @@ export default class Document extends NextDocument {
           <link rel='apple-touch-icon' href='/apple-touch-icon.png' />
           <link rel='manifest' href='/manifest.webmanifest' />
         </Head>
-        <body>
+        <body style={{ backgroundColor: 'rgb(26, 32, 44)' }}>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <Main />
           <NextScript />
