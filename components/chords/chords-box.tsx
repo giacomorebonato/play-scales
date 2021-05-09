@@ -25,8 +25,6 @@ export const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
       >
         {chords.map((chord, i) => {
           const data = Tonal.Chord.get(chord)
-          const notes = data.notes.map((note) => `${note}4`)
-
           return (
             <ButtonGroup
               size='sm'
@@ -34,7 +32,7 @@ export const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
               variant='outline'
               key={`${title}-${chord}`}
             >
-              <ChordButton notes={notes}>{chord}</ChordButton>
+              <ChordButton chordName={chord}>{chord}</ChordButton>
               <ChordPopover chord={data} />
             </ButtonGroup>
           )

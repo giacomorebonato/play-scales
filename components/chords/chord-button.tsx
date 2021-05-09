@@ -1,31 +1,31 @@
 import { Button } from '@chakra-ui/react'
+import { Chord } from '@tonaljs/tonal'
 import React from 'react'
 import { useSynth } from '../../hooks'
 
 type ChordButtonProps = {
-  notes: string[]
+  chordName: string
 }
 
 export const ChordButton: React.FC<ChordButtonProps> = ({
   children,
-  notes
+  chordName
 }) => {
   const { attackChord, releaseChord } = useSynth()
-  const handleRelease = React.useCallback(
-    (e) => {
-      e.preventDefault()
-      releaseChord(notes)
-    },
-    [notes]
-  )
+  const notes = React.useMemo(() => {
+    const { aliases, tonic } = Chord.get(chordName)
+    const { notes } = Chord.getChord(aliases[0], tonic + 4)
 
-  const handleAttack = React.useCallback(
-    (e) => {
-      e.preventDefault()
-      attackChord(notes)
-    },
-    [notes]
-  )
+    return notes
+  }, [chordName])
+
+  const handleRelease = React.useCallback(() => {
+    releaseChord(notes)
+  }, [chordName])
+
+  const handleAttack = React.useCallback(() => {
+    attackChord(notes)
+  }, [chordName])
 
   return (
     <Button
