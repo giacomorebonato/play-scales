@@ -35,7 +35,7 @@ export const ScaleSelect: React.FC<ScaleSelectProps> = ({
 
   return (
     <FormControl as='fieldset' mb='4'>
-      <FormLabel>Scale name</FormLabel>
+      <FormLabel>Which music scale are you looking for?</FormLabel>
       <Flex dir='row'>
         <Select
           flex={2}

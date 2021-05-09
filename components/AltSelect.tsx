@@ -12,7 +12,7 @@ export const AltSelect: React.FC<AltSelectProps> = ({ alt, onChange }) => {
   const { isPlaying } = useSynth()
   return (
     <FormControl as='fieldset' mb='4'>
-      <FormLabel>Alteration</FormLabel>
+      <FormLabel>Alteration (sharp, flat or natural?)</FormLabel>
       <Select
         disabled={isPlaying}
         onChange={(e) => {

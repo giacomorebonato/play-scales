@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 import Head from 'next/head'
 import React from 'react'
 import * as Tone from 'tone'
@@ -54,6 +54,12 @@ export default function Home() {
           <meta name='viewport' content='width=device-width, initial-scale=1' />
         </Head>
         <Header />
+        <Box mb={4}>
+          <Text>
+            play-scales is a free educational application for learning music
+            scales and chords progressions.
+          </Text>
+        </Box>
         <Box as='form'>
           <NoteSelect note={noteLetter} onChange={setNoteLetter} />
           <AltSelect alt={alt} onChange={setAlt} />

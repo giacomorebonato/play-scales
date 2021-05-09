@@ -15,7 +15,7 @@ export const NoteSelect: React.FC<NoteSelectProps> = ({ note, onChange }) => {
 
   return (
     <FormControl as='fieldset' mb='4'>
-      <FormLabel>Root note</FormLabel>
+      <FormLabel>Pick your reference note</FormLabel>
       <Select
         disabled={isPlaying}
         onChange={(e) => {
