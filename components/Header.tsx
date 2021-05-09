@@ -13,7 +13,7 @@ export const Header: React.FC = () => (
     mb='4'
   >
     <Text fontWeight='bold' fontSize='2xl' as='h1' color='pink.300' flex='1'>
-      Play scales
+      play-scales
     </Text>
 
     <Box
@@ -25,7 +25,8 @@ export const Header: React.FC = () => (
       <MyLink href='https://github.com/giacomorebonato/play-scales'>
         GitHub
       </MyLink>{' '}
-      | <MyLink href='http://giacomorebonato.com/'>Giacomo Rebonato</MyLink>
+      | Made with ❤️ by{' '}
+      <MyLink href='http://giacomorebonato.com/'>Giacomo Rebonato</MyLink>
     </Box>
   </Flex>
 )
