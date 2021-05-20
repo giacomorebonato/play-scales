@@ -12,10 +12,10 @@ import {
   ScaleSelect,
   SimplifiedNote
 } from '../components'
-import { PageView } from '../components/PageView'
+import { PageView } from '../components/page-view'
 import { SynthContext } from '../contexts/synth-context'
 import { useScale } from '../hooks'
-import { SYNTH_OPTIONS } from '../hooks/useSynth'
+import { SYNTH_OPTIONS } from '../hooks/use-synth'
 import { altToSymbol } from '../lib/altToSymbol'
 
 export default function Home() {

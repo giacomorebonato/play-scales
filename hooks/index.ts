@@ -1,2 +1,2 @@
-export { useScale } from './useScale'
-export { useSynth } from './useSynth'
+export { useScale } from './use-scale'
+export { useSynth } from './use-synth'

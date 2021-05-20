@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks'
-import { useSynth } from '../useSynth'
+import { useSynth } from '../use-synth'
 
 const mockTriggerAttackRelease = jest.fn()
 const mockTriggerAttack = jest.fn()

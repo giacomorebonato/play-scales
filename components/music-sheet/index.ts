@@ -1,1 +1,1 @@
-export { MusicSheet } from './MusicSheet'
+export { MusicSheet } from './music-sheet'

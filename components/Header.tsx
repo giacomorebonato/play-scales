@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
-import { MyLink } from './MyLink'
+import { MyLink } from './my-link'
 
 export const Header: React.FC = () => (
   <Flex
