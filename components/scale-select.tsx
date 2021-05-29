@@ -1,61 +1,40 @@
-import {
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Select,
-  useBoolean
-} from '@chakra-ui/react'
-import { Scale } from '@tonaljs/tonal'
+import { FormControl, FormLabel, Select } from '@chakra-ui/react'
 import React from 'react'
 import { useSynth } from '../hooks'
+import { scalesMap } from '../lib/scales'
 
 type ScaleSelectProps = {
-  onChange: (scaleName: string) => void
-  value: string
+  onChange: ({ scaleId: number, scaleName: string }) => void
+  scaleId: number
 }
-
-const scales = Scale.names().sort()
-const mainScales = scales.filter((scale) =>
-  [
-    'major',
-    'harmonic minor',
-    'melodic minor',
-    'major pentatonic',
-    'minor pentatonic'
-  ].includes(scale)
-)
 
 export const ScaleSelect: React.FC<ScaleSelectProps> = ({
   onChange,
-  value
+  scaleId
 }) => {
   const { isPlaying } = useSynth()
-  const [showAllScales, setShowAllScales] = useBoolean(false)
 
   return (
     <FormControl as='fieldset' mb='4'>
       <FormLabel>Which music scale are you looking for?</FormLabel>
-      <Flex dir='row'>
-        <Select
-          flex={2}
-          disabled={isPlaying}
-          onChange={(e) => {
-            onChange(e.target.value)
-          }}
-          mr={4}
-          value={value}
-        >
-          {(showAllScales ? scales : mainScales).map((scale) => (
-            <option key={scale} value={scale}>
-              {scale}
-            </option>
-          ))}
-        </Select>
-        <Button onClick={setShowAllScales.toggle} flex={1} fontSize='sm'>
-          {showAllScales ? 'Basic' : 'Advanced'}
-        </Button>
-      </Flex>
+      <Select
+        flex={2}
+        disabled={isPlaying}
+        onChange={(e) => {
+          onChange({
+            scaleId: e.target.value,
+            scaleName: scalesMap[e.target.value]
+          })
+        }}
+        mr={4}
+        value={scaleId}
+      >
+        {[...scalesMap.entries()].map(([id, name]) => (
+          <option key={`scale-${id}`} value={id}>
+            {name}
+          </option>
+        ))}
+      </Select>
     </FormControl>
   )
 }

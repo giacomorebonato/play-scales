@@ -1,0 +1,19 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-playscales-dev-84530-authRole",
+      "UnauthRoleArn": "arn:aws:iam::601437700382:role/amplify-playscales-dev-84530-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::601437700382:role/amplify-playscales-dev-84530-authRole",
+      "Region": "eu-south-1",
+      "DeploymentBucketName": "amplify-playscales-dev-84530-deployment",
+      "UnauthRoleName": "amplify-playscales-dev-84530-unauthRole",
+      "StackName": "amplify-playscales-dev-84530",
+      "StackId": "arn:aws:cloudformation:eu-south-1:601437700382:stack/amplify-playscales-dev-84530/f6d7aac0-bded-11eb-9025-066a040ac512"
+    },
+    "categories": {
+      "auth": {
+        "playscales2da43c33": {}
+      }
+    }
+  }
+}

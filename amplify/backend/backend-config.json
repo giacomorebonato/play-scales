@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "playscales2da43c33": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

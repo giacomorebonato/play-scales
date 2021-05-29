@@ -1,4 +1,5 @@
 import { Box, Text } from '@chakra-ui/react'
+import { Amplify } from 'aws-amplify'
 import Head from 'next/head'
 import React from 'react'
 import * as Tone from 'tone'
@@ -17,17 +18,13 @@ import { SynthContext } from '../contexts/synth-context'
 import { useScale } from '../hooks'
 import { SYNTH_OPTIONS } from '../hooks/use-synth'
 import { altToSymbol } from '../lib/altToSymbol'
+import awsExports from '../src/aws-exports'
+
+Amplify.configure({ ...awsExports, ssr: true })
 
 export default function Home() {
-  const {
-    state,
-    setAlt,
-    setNoteLetter,
-    setScaleName,
-    setSimplified
-  } = useScale()
-  const { alt, noteLetter, scaleNotes, scaleName } = state
-  // const ptsRef = React.createRef<HTMLDivElement>()
+  const { state, setAlt, setNoteLetter, setScale, setSimplified } = useScale()
+  const { alt, scaleId, noteLetter, scaleNotes, scaleName } = state
   let synth: Tone.Synth
   let polySynth: Tone.PolySynth
 
@@ -39,12 +36,7 @@ export default function Home() {
   React.useEffect(() => {
     polySynth = new Tone.PolySynth(Tone.Synth, SYNTH_OPTIONS)
     synth = new Tone.Synth(SYNTH_OPTIONS)
-  }, [alt, scaleNotes, scaleName])
-
-  // useEffect(() => {
-  //   const space = new CanvasSpace(ptsRef.current)
-  //   space.setup({ bgcolor: '#fff' })
-  // })
+  }, [alt, scaleNotes, scaleId])
 
   return (
     <SynthContext.Provider value={{ polySynth, synth }}>
@@ -68,14 +60,14 @@ export default function Home() {
             alt={alt}
             onChange={setSimplified}
           />
-          <ScaleSelect onChange={setScaleName} value={scaleName} />
+          <ScaleSelect onChange={setScale} scaleId={scaleId} />
           <PlayPause notes={scaleNotes} />
         </Box>
 
         <MusicSheet
           notes={scaleNotes}
           onMidiCreated={(toneMidi) => {
-            console.log(toneMidi)
+            console.log('onMidiCreated', toneMidi)
           }}
           title={`${noteLetter}${altToSymbol(alt)} ${scaleName} scale`}
         />

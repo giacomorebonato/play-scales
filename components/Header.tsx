@@ -25,7 +25,7 @@ export const Header: React.FC = () => (
       <MyLink href='https://github.com/giacomorebonato/play-scales'>
         GitHub
       </MyLink>{' '}
-      | Made with ❤️ by{' '}
+      | Made with ❤️ &nbsp;by{' '}
       <MyLink href='http://giacomorebonato.com/'>Giacomo Rebonato</MyLink>
     </Box>
   </Flex>

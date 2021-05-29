@@ -2,44 +2,95 @@ import * as Tonal from '@tonaljs/tonal'
 import { useRouter } from 'next/router'
 import queryString from 'query-string'
 import React from 'react'
+import { isArray } from 'tone'
 import { useImmer } from 'use-immer'
 import { Alt, altToSymbol } from '../lib/altToSymbol'
-import { decrypt, encrypt } from '../lib/crypto'
+import { scalesMap } from '../lib/scales'
 
 type ScaleState = {
   alt: Alt
   noteLetter: string
-  scaleName: string
+  scaleId: number
 }
 
-const INITIAL_STATE = {
+const INITIAL_STATE: ScaleState = {
   alt: '',
   noteLetter: 'C',
-  scaleName: 'major'
+  scaleId: 49
 } as const
+
+const parseAlt = (altText: string | string[]): Alt => {
+  const text = isArray(altText) ? altText[0] : altText
+
+  if (text === '') return ''
+
+  return +text as Alt
+}
+function isShallowEqual(v: {}, o: {}) {
+  for (const key in v) {
+    if (!(key in o) || v[key] !== o[key]) {
+      return false
+    }
+  }
+
+  for (const key in o) {
+    if (!(key in v) || v[key] !== o[key]) {
+      return false
+    }
+  }
+
+  return true
+}
+
+const getInitialState = (): ScaleState => {
+  if (!process.browser) {
+    return INITIAL_STATE
+  }
+
+  const query = queryString.parse(location.search, {
+    decode: true
+  })
+
+  const queryState: Partial<ScaleState> = {}
+
+  if (query.alt) {
+    queryState.alt = parseAlt(query.alt)
+  }
+
+  if (query.noteLetter) {
+    queryState.noteLetter = isArray(query.noteLetter)
+      ? query.noteLetter[0]
+      : query.noteLetter
+  }
+
+  if (query.scaleId) {
+    queryState.scaleId = +query.scaleId
+  }
+
+  return { ...INITIAL_STATE, ...queryState }
+}
 
 export const useScale = () => {
   const router = useRouter()
-  const [state, updateState] = useImmer<ScaleState>(INITIAL_STATE)
+  const [state, updateState] = useImmer<ScaleState>(getInitialState())
+  const { scaleId, noteLetter, alt } = state
 
   React.useEffect(() => {
-    const encoded = encodeURIComponent(encrypt(state))
-    router.push(`/?data=${encoded}`, undefined, { shallow: true })
+    if (
+      isShallowEqual(state, INITIAL_STATE) ||
+      Object.keys(state).length === 0
+    ) {
+      return
+    }
+    const params = new URLSearchParams({
+      scaleId: scaleId?.toString(),
+      noteLetter,
+      alt: alt?.toString()
+    })
+    router.push(`/?${params}`, undefined, { shallow: true })
   }, [state])
 
-  React.useEffect(() => {
-    const query = queryString.parse(location.search, {
-      decode: true
-    })
-
-    if (query.data) {
-      const data = decrypt(query.data as string, INITIAL_STATE)
-
-      updateState(data as ScaleState)
-    }
-  }, [])
-
-  const { alt, noteLetter, scaleName } = state
+  const scaleName = scalesMap.get(scaleId)
   const noteFull = `${noteLetter}${altToSymbol(alt)}`
   const scale = Tonal.Scale.get(`${noteFull}4 ${scaleName}`)
   const scaleNotes = [
@@ -48,7 +99,7 @@ export const useScale = () => {
   ]
 
   return {
-    state: { alt, noteLetter, noteFull, scale, scaleName, scaleNotes },
+    state: { alt, noteLetter, noteFull, scale, scaleId, scaleName, scaleNotes },
     setSimplified({ alt, noteLetter }: { alt: Alt; noteLetter: string }) {
       updateState((draft) => {
         draft.alt = alt
@@ -65,9 +116,9 @@ export const useScale = () => {
         draft.noteLetter = noteLetter
       })
     },
-    setScaleName(scaleName: string) {
+    setScale({ scaleId, scaleName }) {
       updateState((draft) => {
-        draft.scaleName = scaleName
+        Object.assign(draft, { scaleId, scaleName })
       })
     }
   }
