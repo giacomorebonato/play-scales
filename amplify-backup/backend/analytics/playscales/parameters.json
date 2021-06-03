@@ -1,0 +1,21 @@
+{
+    "appName": "playscales",
+    "roleName": "pinpointLambdaRolef16bbeb1",
+    "cloudformationPolicyName": "cloudformationPolicyf16bbeb1",
+    "cloudWatchPolicyName": "cloudWatchPolicyf16bbeb1",
+    "pinpointPolicyName": "pinpointPolicyf16bbeb1",
+    "authPolicyName": "pinpoint_amplify_f16bbeb1",
+    "unauthPolicyName": "pinpoint_amplify_f16bbeb1",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}
