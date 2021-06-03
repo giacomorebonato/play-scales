@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "lint": "prettier --write . && tsc && eslint . --ext .ts,.tsx",
     "start": "next start",
     "test": "jest"
