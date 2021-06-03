@@ -19,7 +19,7 @@ import { SyntContextProps, SynthContext } from '../contexts/synth-context'
 import { useScale } from '../hooks'
 import { SYNTH_OPTIONS } from '../hooks/use-synth'
 import { altToSymbol } from '../lib/altToSymbol'
-import awsExports from '../src/aws-exports'
+import awsExports from '../lib/aws-exports'
 
 Amplify.configure({ ...awsExports, ssr: true })
 
