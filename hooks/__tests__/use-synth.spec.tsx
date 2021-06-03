@@ -13,7 +13,7 @@ jest.mock('react', () => {
         triggerAttack: mockTriggerAttack,
         triggerAttackRelease: mockTriggerAttackRelease
       },
-      synth: {
+      monoSynth: {
         toDestination: jest.fn(),
         triggerAttack: mockTriggerAttack,
         triggerAttackRelease: mockTriggerAttackRelease

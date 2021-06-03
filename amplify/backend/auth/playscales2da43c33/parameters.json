@@ -1,6 +1,6 @@
 {
     "identityPoolName": "playscales2da43c33_identitypool_2da43c33",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "playsc2da43c33",
     "userPoolName": "playscales2da43c33_userpool_2da43c33",
     "autoVerifiedAttributes": [
