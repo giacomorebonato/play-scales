@@ -14,7 +14,7 @@ export const MusicSheet = dynamic(
   }
 )
 export const Waveform = dynamic(
-  () => import('./Waveform').then((mod) => mod.Waveform),
+  () => import('./waveform').then((mod) => mod.Waveform),
   {
     ssr: false
   }
