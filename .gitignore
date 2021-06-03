@@ -41,7 +41,6 @@ yarn-error.log*
 
 # vercel
 .vercel
-package-lock.json
 
 #amplify
 amplify/\#current-cloud-backend
