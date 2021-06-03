@@ -21,6 +21,7 @@ export const ScaleSelect: React.FC<ScaleSelectProps> = ({
         flex={2}
         disabled={isPlaying}
         onChange={(e) => {
+          const scaleId = +e.target.value
           onChange({
             scaleId: e.target.value,
             scaleName: scalesMap[e.target.value]

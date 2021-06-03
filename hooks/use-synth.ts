@@ -28,22 +28,24 @@ export const SYNTH_OPTIONS: RecursivePartial<Tone.SynthOptions> = {
 }
 
 export const useSynth = () => {
-  const { synth, polySynth } = React.useContext(SynthContext)
+  const { monoSynth, polySynth } = React.useContext(SynthContext)
   const [isPlaying, setIsPlaying] = React.useState(false)
   const [currentNote, setCurrentNote] = React.useState<string>()
   const sequence = React.useRef<Tone.Sequence<string>>()
 
   const init = React.useCallback(() => {
+    if (!polySynth || !monoSynth) return
+
     polySynth.toDestination()
-    synth.toDestination()
-  }, [synth, polySynth])
+    monoSynth.toDestination()
+  }, [monoSynth, polySynth])
 
   React.useEffect(() => {
     init()
-  }, [synth, polySynth])
+  }, [monoSynth, polySynth])
 
   React.useEffect(() => {
-    if (!polySynth || !synth) return
+    if (!polySynth || !monoSynth) return
 
     init()
 
@@ -62,9 +64,9 @@ export const useSynth = () => {
 
   const playNote = React.useCallback(
     (note: string) => {
-      synth.triggerAttackRelease(Note.simplify(note), '8n')
+      monoSynth.triggerAttackRelease(Note.simplify(note), '8n')
     },
-    [synth]
+    [monoSynth]
   )
 
   return {
@@ -128,7 +130,7 @@ export const useSynth = () => {
     },
     stopSequence,
     polySynth,
-    synth,
+    monoSynth,
     init
   }
 }

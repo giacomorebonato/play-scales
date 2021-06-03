@@ -11,10 +11,11 @@ import {
   NoteSelect,
   PlayPause,
   ScaleSelect,
-  SimplifiedNote
+  SimplifiedNote,
+  Waveform
 } from '../components'
 import { PageView } from '../components/page-view'
-import { SynthContext } from '../contexts/synth-context'
+import { SyntContextProps, SynthContext } from '../contexts/synth-context'
 import { useScale } from '../hooks'
 import { SYNTH_OPTIONS } from '../hooks/use-synth'
 import { altToSymbol } from '../lib/altToSymbol'
@@ -22,24 +23,27 @@ import awsExports from '../src/aws-exports'
 
 Amplify.configure({ ...awsExports, ssr: true })
 
+const createSynths = (): SyntContextProps => {
+  if (process.browser && process.env.NODE_ENV !== 'test') {
+    return {
+      polySynth: new Tone.PolySynth(Tone.Synth, SYNTH_OPTIONS),
+      monoSynth: new Tone.Synth(SYNTH_OPTIONS)
+    }
+  }
+
+  return {
+    polySynth: null,
+    monoSynth: null
+  }
+}
+
 export default function Home() {
   const { state, setAlt, setNoteLetter, setScale, setSimplified } = useScale()
   const { alt, scaleId, noteLetter, scaleNotes, scaleName } = state
-  let synth: Tone.Synth
-  let polySynth: Tone.PolySynth
-
-  if (process.browser && process.env.NODE_ENV !== 'test') {
-    polySynth = new Tone.PolySynth(Tone.Synth, SYNTH_OPTIONS)
-    synth = new Tone.Synth(SYNTH_OPTIONS)
-  }
-
-  React.useEffect(() => {
-    polySynth = new Tone.PolySynth(Tone.Synth, SYNTH_OPTIONS)
-    synth = new Tone.Synth(SYNTH_OPTIONS)
-  }, [alt, scaleNotes, scaleId])
+  const synths = createSynths()
 
   return (
-    <SynthContext.Provider value={{ polySynth, synth }}>
+    <SynthContext.Provider value={synths}>
       <PageView>
         <Head>
           <title>play-scales</title>
@@ -72,6 +76,7 @@ export default function Home() {
           title={`${noteLetter}${altToSymbol(alt)} ${scaleName} scale`}
         />
         <Chords tonic={noteLetter} />
+        <Waveform />
       </PageView>
     </SynthContext.Provider>
   )

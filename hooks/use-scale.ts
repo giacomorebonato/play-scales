@@ -102,8 +102,7 @@ export const useScale = () => {
     state: { alt, noteLetter, noteFull, scale, scaleId, scaleName, scaleNotes },
     setSimplified({ alt, noteLetter }: { alt: Alt; noteLetter: string }) {
       updateState((draft) => {
-        draft.alt = alt
-        draft.noteLetter = noteLetter
+        Object.assign(draft, { alt, noteLetter })
       })
     },
     setAlt(alt: Alt) {
