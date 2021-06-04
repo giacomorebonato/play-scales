@@ -10,6 +10,17 @@
       "StackName": "amplify-playscales-main-80850",
       "StackId": "arn:aws:cloudformation:eu-central-1:601437700382:stack/amplify-playscales-main-80850/56c182d0-c4fb-11eb-a9da-0228e0ef18d4",
       "AmplifyAppId": "d22vu359grkhor"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d22vu359grkhor",
+          "type": "cicd"
+        }
+      },
+      "auth": {
+        "cognito9a169310": {}
+      }
     }
   }
 }
