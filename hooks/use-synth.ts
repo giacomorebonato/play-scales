@@ -20,10 +20,10 @@ export const SYNTH_OPTIONS: RecursivePartial<Tone.SynthOptions> = {
     volume: 2
   },
   envelope: {
-    attack: 2,
+    attack: 3,
     decay: 1,
     sustain: 0.4,
-    release: 4
+    release: 2
   }
 }
 

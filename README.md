@@ -1,7 +1,7 @@
 # play-scales
 
 This is a weekend project for me to have an handy and clean page to visualize music scales.  
-[The project is published here](https://play-scales.vercel.app) using Vercel.
+[The project is published here](https://www.play-scales.com).
 
 ## Instructions
 
@@ -12,13 +12,6 @@ npm install
 npm run dev
 ```
 
-Using `yarn`:
-
-```bash
-yarn install
-yarn dev
-```
-
 ## Credits
 
-Thanks for all the open source libraries and Vercel. All of this made my day.
+Thanks for all the open source libraries used in this project. All of this made my day.
