@@ -30,15 +30,16 @@ export const Chords: React.FC<ChordsProps> = ({ tonic }) => {
       <ChordsBox title='Harmonic minor key' chords={minorKey.harmonic.chords} />
       <ChordsBox title='Melodic minor key' chords={minorKey.melodic.chords} />
       <Box p={4} mt={2}>
-        <Text>Volume</Text>
+        <Text>Volume:</Text>
         <Slider
           aria-label='volume slider'
-          defaultValue={0}
+          defaultValue={-20}
           colorScheme='pink'
-          min={-10}
-          max={10}
+          min={-40}
+          max={-10}
           step={0.05}
           onChangeEnd={(value) => {
+            console.log(`volume: ${value}`)
             polySynth.volume.value = value
           }}
         >

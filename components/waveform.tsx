@@ -61,7 +61,7 @@ export const Waveform: React.FC = () => {
     for (let i = 0; i < spectrum.length; i++) {
       const value = spectrum[i]
       const x = p5.map(i, 0, spectrum.length, 0, p5.width)
-      const h = -p5.height + p5.map(value, -200, 0, p5.height, 0)
+      const h = -p5.height + p5.map(value, -300, 0, p5.height, 0)
 
       p5.rect(x, p5.height, p5.width / spectrum.length, h)
     }

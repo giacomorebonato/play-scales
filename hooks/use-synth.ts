@@ -17,12 +17,12 @@ const toneStart = async () => {
 export const SYNTH_OPTIONS: RecursivePartial<Tone.SynthOptions> = {
   oscillator: {
     type: 'triangle8',
-    volume: 2
+    volume: -20
   },
   envelope: {
     attack: 3,
-    decay: 1,
-    sustain: 0.4,
+    decay: 0,
+    sustain: 0.2,
     release: 2
   }
 }
@@ -36,6 +36,7 @@ export const useSynth = () => {
   const init = React.useCallback(() => {
     if (!polySynth || !monoSynth) return
 
+    polySynth.volume.value = -20
     polySynth.toDestination()
     monoSynth.toDestination()
   }, [monoSynth, polySynth])
