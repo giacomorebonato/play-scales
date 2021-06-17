@@ -23,7 +23,7 @@ export const ScaleSelect: React.FC<ScaleSelectProps> = ({
         onChange={(e) => {
           const scaleId = +e.target.value
           onChange({
-            scaleId: e.target.value,
+            scaleId,
             scaleName: scalesMap[e.target.value]
           })
         }}
