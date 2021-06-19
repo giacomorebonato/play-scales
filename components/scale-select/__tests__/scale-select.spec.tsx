@@ -28,7 +28,7 @@ describe('scale-select', () => {
 
     expect(mockOnChange).toHaveBeenCalledWith({
       scaleId: 3,
-      scaleName: 'harmonic minor'
+      scaleName: 'augmented heptatonic'
     })
   })
 
