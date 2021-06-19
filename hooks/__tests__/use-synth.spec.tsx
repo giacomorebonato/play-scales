@@ -6,14 +6,20 @@ const mockTriggerAttack = jest.fn()
 
 jest.mock('react', () => {
   return {
-    ...jest.requireActual('react'),
+    ...(jest.requireActual('react') as any),
     useContext: () => ({
       polySynth: {
+        volume: {
+          value: 0
+        },
         toDestination: jest.fn(),
         triggerAttack: mockTriggerAttack,
         triggerAttackRelease: mockTriggerAttackRelease
       },
       monoSynth: {
+        volume: {
+          value: 0
+        },
         toDestination: jest.fn(),
         triggerAttack: mockTriggerAttack,
         triggerAttackRelease: mockTriggerAttackRelease
