@@ -1,4 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks'
+import React from 'react'
 import { useSynth } from '../use-synth'
 
 const mockTriggerAttackRelease = jest.fn()
@@ -6,7 +7,7 @@ const mockTriggerAttack = jest.fn()
 
 jest.mock('react', () => {
   return {
-    ...(jest.requireActual('react') as any),
+    ...(jest.requireActual('react') as typeof React),
     useContext: () => ({
       polySynth: {
         volume: {
