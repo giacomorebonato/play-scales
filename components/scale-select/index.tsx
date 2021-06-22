@@ -21,7 +21,7 @@ export const ScaleSelect: React.FC<ScaleSelectProps> = ({
 }) => {
   const { isPlaying } = useSynth()
   const [showAllScales, setShowAllScales] = useBoolean(false)
-  const currentMap = showAllScales ? mainScalesMap : scalesMap
+  const currentMap = showAllScales ? scalesMap : mainScalesMap
 
   return (
     <FormControl as='fieldset' mb='4'>
