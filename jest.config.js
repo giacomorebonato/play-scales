@@ -5,5 +5,6 @@ module.exports = {
     'ts-jest': {
       tsconfig: 'tsconfig.jest.json'
     }
-  }
+  },
+  coverageReporters: ['json-summary']
 }

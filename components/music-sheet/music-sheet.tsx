@@ -59,7 +59,7 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({
     onMidiCreated(new ToneMidi(encoded))
 
     visualObjs[0].setUpAudio()
-  }, [notes, width])
+  }, [notes, onMidiCreated, playNote, title, width])
 
   return (
     <Box

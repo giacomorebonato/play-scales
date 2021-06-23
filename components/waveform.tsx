@@ -12,13 +12,12 @@ export const Waveform: React.FC = () => {
   const [canvasRef, { x, y, width, height, top, right, bottom, left }] =
     useMeasure()
 
-  const [utils, setUtils] =
-    React.useState<{
-      toneMeter: Tone.Meter
-      toneFFT: Tone.FFT
-      toneAnalyser: Tone.Analyser
-      toneWaveform: Tone.Waveform
-    }>()
+  const [utils, setUtils] = React.useState<{
+    toneMeter: Tone.Meter
+    toneFFT: Tone.FFT
+    toneAnalyser: Tone.Analyser
+    toneWaveform: Tone.Waveform
+  }>()
 
   React.useEffect(() => {
     setUtils({
@@ -35,7 +34,7 @@ export const Waveform: React.FC = () => {
     polySynth.connect(utils.toneAnalyser)
     polySynth.connect(utils.toneWaveform)
     polySynth.connect(utils.toneMeter)
-  }, [utils])
+  }, [polySynth, utils])
 
   React.useEffect(() => {
     if (width === 0) return

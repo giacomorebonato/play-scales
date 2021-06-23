@@ -5,7 +5,8 @@ module.exports = {
     node: true,
     jest: true
   },
-  extends: ['plugin:react/recommended', 'standard'],
+  extends: ['next', 'standard'],
+  ignorePatterns: ['out'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -25,9 +26,9 @@ module.exports = {
   },
   settings: {
     react: {
-      createClass: 'createReactClass', // Regex for Component Factory to use,
-      pragma: 'React', // Pragma to use, default to "React"
-      fragment: 'Fragment', // Fragment to use (may be a property of <pragma>), default to "Fragment"
+      createClass: 'createReactClass',
+      pragma: 'React',
+      fragment: 'Fragment',
       version: 'detect'
     },
     propWrapperFunctions: [

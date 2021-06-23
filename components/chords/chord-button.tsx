@@ -21,11 +21,11 @@ export const ChordButton: React.FC<ChordButtonProps> = ({
 
   const handleRelease = React.useCallback(() => {
     releaseChord(notes)
-  }, [chordName])
+  }, [releaseChord, notes])
 
   const handleAttack = React.useCallback(() => {
     attackChord(notes)
-  }, [chordName])
+  }, [attackChord, notes])
 
   return (
     <Button

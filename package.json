@@ -6,9 +6,10 @@
   },
   "private": true,
   "scripts": {
+    "badges": "istanbul-badges-readme",
     "dev": "next dev",
     "build": "next build && next export",
-    "lint": "prettier --write . && tsc && eslint . --ext .ts,.tsx",
+    "lint": "prettier --write . && tsc && next lint",
     "start": "next start",
     "test": "jest"
   },
@@ -56,10 +57,7 @@
     "eslint": "^7.29.0",
     "eslint-config-next": "^11.0.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-react": "^7.24.0",
+    "istanbul-badges-readme": "^1.4.0",
     "jest": "^27.0.4",
     "prettier": "^2.3.1",
     "react-test-renderer": "^17.0.2",
@@ -68,6 +66,6 @@
     "typescript": "^4.3.4"
   },
   "volta": {
-    "node": "14.16.1"
+    "node": "14.17.1"
   }
 }

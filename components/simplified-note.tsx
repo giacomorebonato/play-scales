@@ -25,7 +25,7 @@ export const SimplifiedNote: React.FC<SimplifiedNoteProps> = ({
     } else {
       setSimpleNote(null)
     }
-  }, [noteLetter])
+  }, [fullNote, noteLetter, simpleNote])
 
   if (!simpleNote) return null
 
