@@ -4,7 +4,7 @@ import queryString from 'query-string'
 import React from 'react'
 import { isArray } from 'tone'
 import { useImmer } from 'use-immer'
-import { Alt, altToSymbol } from '../lib/altToSymbol'
+import { Alt, altToSymbol } from '../lib/alt-to-symbol'
 import { scalesMap } from '../lib/scales'
 
 type ScaleState = {

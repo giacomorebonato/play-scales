@@ -32,7 +32,7 @@ export const ChordsBox: React.FC<ChordsBoxProps> = ({ chords, title }) => {
               variant='outline'
               key={`${title}-${chord}`}
             >
-              <ChordButton chordName={chord}>{chord}</ChordButton>
+              <ChordButton chordName={chord} />
               <ChordPopover chord={data} />
             </ButtonGroup>
           )

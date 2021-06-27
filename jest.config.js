@@ -6,5 +6,6 @@ module.exports = {
       tsconfig: 'tsconfig.jest.json'
     }
   },
-  coverageReporters: ['json-summary']
+  coverageReporters: ['json-summary'],
+  setupFilesAfterEnv: ['<rootDir>/jest-setup.ts']
 }

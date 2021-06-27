@@ -7,10 +7,7 @@ type ChordButtonProps = {
   chordName: string
 }
 
-export const ChordButton: React.FC<ChordButtonProps> = ({
-  children,
-  chordName
-}) => {
+export const ChordButton: React.FC<ChordButtonProps> = ({ chordName }) => {
   const { attackChord, releaseChord } = useSynth()
   const notes = React.useMemo(() => {
     const { aliases, tonic } = Chord.get(chordName)
@@ -29,6 +26,7 @@ export const ChordButton: React.FC<ChordButtonProps> = ({
 
   return (
     <Button
+      data-testid='chord-button'
       flex={2}
       colorScheme='pink'
       variant='solid'
@@ -41,7 +39,7 @@ export const ChordButton: React.FC<ChordButtonProps> = ({
       pr='0'
       textOverflow='ellipsis'
     >
-      {children}
+      {chordName}
     </Button>
   )
 }

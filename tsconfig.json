@@ -15,6 +15,12 @@
     "jsx": "preserve",
     "useDefineForClassFields": true
   },
-  "include": ["next-env.d.ts", "@types/global.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "./jest-setup.ts",
+    "next-env.d.ts",
+    "@types/global.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
   "exclude": ["node_modules"]
 }
