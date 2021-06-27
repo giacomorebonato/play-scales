@@ -18,7 +18,7 @@ import { PageView } from '../components/page-view'
 import { SyntContextProps, SynthContext } from '../contexts/synth-context'
 import { useScale } from '../hooks'
 import { SYNTH_OPTIONS } from '../hooks/use-synth'
-import { altToSymbol } from '../lib/alt-to-symbol'
+import { altToSymbol } from '../lib/alt-utils'
 import awsExports from '../lib/aws-exports'
 
 Amplify.configure({ ...awsExports, ssr: true })

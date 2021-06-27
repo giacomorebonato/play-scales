@@ -1,7 +1,7 @@
 import { FormControl, FormLabel, Select } from '@chakra-ui/react'
 import React from 'react'
 import { useSynth } from '../hooks'
-import { Alt } from '../lib/alt-to-symbol'
+import { Alt } from '../lib/alt-utils'
 
 type AltSelectProps = {
   alt: Alt

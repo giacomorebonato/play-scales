@@ -6,7 +6,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test && npm run badges && git add 'README.md'"
+      "pre-commit": "npm test --coverage true && npm run badges && git add 'README.md'"
     }
   },
   "scripts": {

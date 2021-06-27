@@ -2,9 +2,9 @@ import * as Tonal from '@tonaljs/tonal'
 import { useRouter } from 'next/router'
 import queryString from 'query-string'
 import React from 'react'
-import { isArray } from 'tone'
 import { useImmer } from 'use-immer'
-import { Alt, altToSymbol } from '../lib/alt-to-symbol'
+import { Alt, altToSymbol, parseAlt } from '../lib/alt-utils'
+import { isShallowEqual } from '../lib/isShallowEqual'
 import { scalesMap } from '../lib/scales'
 
 type ScaleState = {
@@ -18,29 +18,6 @@ const INITIAL_STATE: ScaleState = {
   noteLetter: 'C',
   scaleId: 49
 } as const
-
-const parseAlt = (altText: string | string[]): Alt => {
-  const text = isArray(altText) ? altText[0] : altText
-
-  if (text === '') return ''
-
-  return +text as Alt
-}
-function isShallowEqual(v: {}, o: {}) {
-  for (const key in v) {
-    if (!(key in o) || v[key] !== o[key]) {
-      return false
-    }
-  }
-
-  for (const key in o) {
-    if (!(key in v) || v[key] !== o[key]) {
-      return false
-    }
-  }
-
-  return true
-}
 
 const getInitialState = (): ScaleState => {
   if (!process.browser) {
@@ -58,7 +35,7 @@ const getInitialState = (): ScaleState => {
   }
 
   if (query.noteLetter) {
-    queryState.noteLetter = isArray(query.noteLetter)
+    queryState.noteLetter = Array.isArray(query.noteLetter)
       ? query.noteLetter[0]
       : query.noteLetter
   }

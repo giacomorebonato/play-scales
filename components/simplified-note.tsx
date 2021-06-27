@@ -1,7 +1,7 @@
 import { Alert, AlertIcon, Button } from '@chakra-ui/react'
 import * as Tonal from '@tonaljs/tonal'
 import React from 'react'
-import { Alt, altToSymbol } from '../lib/alt-to-symbol'
+import { Alt, altToSymbol } from '../lib/alt-utils'
 
 type SimplifiedNoteProps = {
   alt: Alt

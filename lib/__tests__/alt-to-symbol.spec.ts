@@ -1,4 +1,4 @@
-import { altToSymbol } from '../alt-to-symbol'
+import { altToSymbol } from '../alt-utils'
 
 describe('altToSymbol()', () => {
   it('converts alteration value to the right symbol', () => {

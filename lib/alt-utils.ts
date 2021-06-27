@@ -13,3 +13,11 @@ export const altToSymbol = (alt: Alt) => {
       return 'b'
   }
 }
+
+export const parseAlt = (altText: string | string[]): Alt => {
+  const text = Array.isArray(altText) ? altText[0] : altText
+
+  if (text === '') return ''
+
+  return +text as Alt
+}
