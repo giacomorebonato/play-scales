@@ -9,19 +9,19 @@ export type SyntContextProps = {
 
 export const SynthContext = React.createContext<SyntContextProps>({
   polySynth: null,
-  monoSynth: null
+  monoSynth: null,
 })
 
 export const createSynths = (): SyntContextProps => {
-  if (process.browser && process.env.NODE_ENV !== 'test') {
+  if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'test') {
     return {
       polySynth: new Tone.PolySynth(Tone.Synth, SYNTH_OPTIONS),
-      monoSynth: new Tone.Synth(SYNTH_OPTIONS)
+      monoSynth: new Tone.Synth(SYNTH_OPTIONS),
     }
   }
 
   return {
     polySynth: null,
-    monoSynth: null
+    monoSynth: null,
   }
 }

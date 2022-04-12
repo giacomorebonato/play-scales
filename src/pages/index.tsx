@@ -11,7 +11,7 @@ import {
   PlayPause,
   ScaleSelect,
   SimplifiedNote,
-  Waveform
+  Waveform,
 } from '../components'
 import { PageView } from '../components/page-view'
 import { SyntContextProps, SynthContext } from '../contexts/synth-context'
@@ -23,13 +23,13 @@ const createSynths = (): SyntContextProps => {
   if (process.browser && process.env.NODE_ENV !== 'test') {
     return {
       polySynth: new Tone.PolySynth(Tone.Synth, SYNTH_OPTIONS),
-      monoSynth: new Tone.Synth(SYNTH_OPTIONS)
+      monoSynth: new Tone.Synth(SYNTH_OPTIONS),
     }
   }
 
   return {
     polySynth: null,
-    monoSynth: null
+    monoSynth: null,
   }
 }
 

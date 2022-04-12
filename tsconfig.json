@@ -17,7 +17,7 @@
   },
   "include": [
     "./jest-setup.ts",
-    "next-env.d.ts",
+    "jest-setup.ts",
     "@types/global.d.ts",
     "src/@types/global.d.ts"
   ],

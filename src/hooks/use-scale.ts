@@ -16,7 +16,7 @@ type ScaleState = {
 const INITIAL_STATE: ScaleState = {
   alt: '',
   noteLetter: 'C',
-  scale: 'major'
+  scale: 'major',
 } as const
 
 const getInitialState = (): ScaleState => {
@@ -25,7 +25,7 @@ const getInitialState = (): ScaleState => {
   }
 
   const query = queryString.parse(location.search, {
-    decode: true
+    decode: true,
   })
 
   const queryState: Partial<ScaleState> = {}
@@ -71,7 +71,7 @@ export const useScale = () => {
     const params = new URLSearchParams({
       scale,
       noteLetter,
-      alt: alt?.toString()
+      alt: alt?.toString(),
     })
     router.push(`/?${params}`, undefined, { shallow: true })
   }, [state])
@@ -80,7 +80,7 @@ export const useScale = () => {
   const tonalScale = Tonal.Scale.get(`${noteFull}4 ${scale}`)
   const scaleNotes = [
     ...tonalScale.notes,
-    Tonal.Note.transpose(tonalScale.notes[0], '8M')
+    Tonal.Note.transpose(tonalScale.notes[0], '8M'),
   ]
 
   return {
@@ -104,6 +104,6 @@ export const useScale = () => {
       updateState((draft) => {
         draft.scale = scale
       })
-    }
+    },
   }
 }

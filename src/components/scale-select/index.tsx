@@ -5,7 +5,7 @@ import {
   FormControl,
   FormLabel,
   Select,
-  useBoolean
+  useBoolean,
 } from '@chakra-ui/react'
 import React from 'react'
 import { useSynth } from '../../hooks'
@@ -18,11 +18,11 @@ type ScaleSelectProps = {
 
 export const ScaleSelect: React.FC<ScaleSelectProps> = ({
   onChange,
-  scale
+  scale,
 }) => {
   const { isPlaying } = useSynth()
   const [showAllScales, setShowAllScales] = useBoolean(
-    !mainScales.includes(scale as any) ? true : false
+    !mainScales.includes(scale as any) ? true : false,
   )
   const scales = showAllScales ? allScales : mainScales
 

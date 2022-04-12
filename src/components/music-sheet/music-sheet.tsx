@@ -24,7 +24,7 @@ if (process.browser) {
 export const MusicSheet: React.FC<MusicSheetProps> = ({
   notes,
   onMidiCreated,
-  title
+  title,
 }) => {
   const [ref, { width }] = useMeasure()
   const { playNote } = useSynth()
@@ -49,11 +49,11 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({
         const noteName = Midi.midiToNoteName(lastClicked[0].pitch)
 
         playNote(noteName)
-      }
+      },
     })
 
     const encoded = ABCJS.synth.getMidiFile(visualObjs[0], {
-      midiOutputType: 'binary'
+      midiOutputType: 'binary',
     })
 
     onMidiCreated(new ToneMidi(encoded))
@@ -67,7 +67,7 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({
       w='100%'
       minH={{
         sm: '136px',
-        md: '400px'
+        md: '400px',
       }}
     >
       <style jsx global>{`

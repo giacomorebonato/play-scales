@@ -17,14 +17,14 @@ const toneStart = async () => {
 export const SYNTH_OPTIONS: RecursivePartial<Tone.SynthOptions> = {
   oscillator: {
     type: 'triangle8',
-    volume: -20
+    volume: -20,
   },
   envelope: {
     attack: 3,
     decay: 0,
     sustain: 0.2,
-    release: 2
-  }
+    release: 2,
+  },
 }
 
 export const useSynth = () => {
@@ -67,7 +67,7 @@ export const useSynth = () => {
     (note: string) => {
       monoSynth.triggerAttackRelease(Note.simplify(note), '8n')
     },
-    [monoSynth]
+    [monoSynth],
   )
 
   return {
@@ -89,7 +89,7 @@ export const useSynth = () => {
 
       currentMidi.tracks.forEach((track) => {
         const synth = new Tone.PolySynth(Tone.Synth, {
-          envelope: SYNTH_OPTIONS.envelope
+          envelope: SYNTH_OPTIONS.envelope,
         }).toDestination()
 
         synth.debug = true
@@ -101,7 +101,7 @@ export const useSynth = () => {
             note.name,
             note.duration,
             note.time + now,
-            note.velocity
+            note.velocity,
           )
         })
       })
@@ -120,7 +120,7 @@ export const useSynth = () => {
           playNote(note)
         },
         [...notes, 'end'],
-        1.2
+        1.2,
       )
 
       sequence.current.loop = false
@@ -132,6 +132,6 @@ export const useSynth = () => {
     stopSequence,
     polySynth,
     monoSynth,
-    init
+    init,
   }
 }

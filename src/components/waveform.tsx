@@ -24,7 +24,7 @@ export const Waveform: React.FC = () => {
       toneFFT: new Tone.FFT(),
       toneAnalyser: new Tone.Analyser(),
       toneWaveform: new Tone.Waveform(1024),
-      toneMeter: new Tone.Meter()
+      toneMeter: new Tone.Meter(),
     })
   }, [polySynth])
 

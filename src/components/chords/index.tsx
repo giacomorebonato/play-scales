@@ -3,7 +3,7 @@ import {
   Slider,
   SliderFilledTrack,
   SliderThumb,
-  SliderTrack
+  SliderTrack,
 } from '@chakra-ui/react'
 import * as Tonal from '@tonaljs/tonal'
 import React from 'react'
