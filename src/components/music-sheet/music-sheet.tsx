@@ -38,8 +38,8 @@ export const MusicSheet: React.FC<MusicSheetProps> = ({
       responsive: 'resize',
       staffwidth: 300,
       wrap: 'maxSpacing',
-      paddingbottom: 0,
-      paddingTop: 0,
+      paddingbottom: 10,
+      paddingtop: 0,
       clickListener: (abcElem) => {
         const lastClicked = abcElem.midiPitches
         if (!lastClicked) {
