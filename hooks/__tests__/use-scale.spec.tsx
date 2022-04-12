@@ -1,5 +1,4 @@
 import { act, renderHook } from '@testing-library/react-hooks'
-import { scalesMap } from '../../lib/scales'
 import { useScale } from '../use-scale'
 
 jest.mock('next/router', () => ({
@@ -47,20 +46,15 @@ describe('useScale()', () => {
     })
   })
   describe('setScale()', () => {
-    it('sets scaleId and scaleName', () => {
+    it('sets scale', () => {
       const { result } = renderHook(() => useScale())
-      const scaleId = 1
-      const scaleName = scalesMap.get(scaleId)
+      const scale = 'minor' as any
 
       act(() => {
-        result.current.setScale({
-          scaleId,
-          scaleName
-        })
+        result.current.setScale(scale)
       })
 
-      expect(result.current.state.scaleId).toBe(scaleId)
-      expect(result.current.state.scaleName).toBe(scaleName)
+      expect(result.current.state.scale).toBe(scale)
     })
   })
   describe('initialState on server', () => {
@@ -69,7 +63,7 @@ describe('useScale()', () => {
 
       expect(result.current.state.alt).toBe('')
       expect(result.current.state.noteLetter).toBe('C')
-      expect(result.current.state.scaleId).toBe(49)
+      expect(result.current.state.scale).toBe('major')
     })
   })
 })

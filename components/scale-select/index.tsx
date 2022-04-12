@@ -5,57 +5,47 @@ import {
   FormControl,
   FormLabel,
   Select,
-  Spinner,
   useBoolean
 } from '@chakra-ui/react'
 import React from 'react'
 import { useSynth } from '../../hooks'
-import { mainScalesMap, scalesMap } from '../../lib/scales'
+import { allScales, mainScales, Scale } from '../../lib/scales'
 
 type ScaleSelectProps = {
-  onChange: ({ scaleId: number, scaleName: string }) => void
-  scaleId: number
+  onChange: (scale: Scale) => void
+  scale: Scale
 }
 
 export const ScaleSelect: React.FC<ScaleSelectProps> = ({
   onChange,
-  scaleId
+  scale
 }) => {
   const { isPlaying } = useSynth()
-  const [isLoading, setIsLoading] = useBoolean(false)
-  const [showAllScales, setShowAllScales] = useBoolean(false)
-  const currentMap = showAllScales ? scalesMap : mainScalesMap
+  const [showAllScales, setShowAllScales] = useBoolean(
+    !mainScales.includes(scale as any) ? true : false
+  )
+  const scales = showAllScales ? allScales : mainScales
 
   return (
     <FormControl as='fieldset' mb='4'>
       <FormLabel>Which music scale are you looking for?</FormLabel>
       <Flex>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <Select
-            data-testid='scale-select'
-            flex={2}
-            disabled={isPlaying}
-            onChange={(e) => {
-              const scaleId = +e.target.value
-              const scaleName = currentMap.get(scaleId)
-
-              onChange({
-                scaleId,
-                scaleName
-              })
-            }}
-            mr={4}
-            value={scaleId}
-          >
-            {[...currentMap.entries()].map(([id, name]) => (
-              <option key={`scale-${id}`} value={id}>
-                {name}
-              </option>
-            ))}
-          </Select>
-        )}
+        <Select
+          data-testid='scale-select'
+          flex={2}
+          disabled={isPlaying}
+          onChange={(e) => {
+            onChange(e.target.value as any)
+          }}
+          mr={4}
+          value={scale}
+        >
+          {scales.map((scale) => (
+            <option key={`scale-${scale}`} value={scale}>
+              {scale}
+            </option>
+          ))}
+        </Select>
 
         <Button
           onClick={setShowAllScales.toggle}

@@ -1,5 +1,4 @@
 import { Box, Text } from '@chakra-ui/react'
-import { Amplify } from 'aws-amplify'
 import Head from 'next/head'
 import React from 'react'
 import * as Tone from 'tone'
@@ -19,9 +18,6 @@ import { SyntContextProps, SynthContext } from '../contexts/synth-context'
 import { useScale } from '../hooks'
 import { SYNTH_OPTIONS } from '../hooks/use-synth'
 import { altToSymbol } from '../lib/alt-utils'
-import awsExports from '../lib/aws-exports'
-
-Amplify.configure({ ...awsExports, ssr: true })
 
 const createSynths = (): SyntContextProps => {
   if (process.browser && process.env.NODE_ENV !== 'test') {
@@ -39,7 +35,7 @@ const createSynths = (): SyntContextProps => {
 
 export default function Home() {
   const { state, setAlt, setNoteLetter, setScale, setSimplified } = useScale()
-  const { alt, scaleId, noteLetter, scaleNotes, scaleName } = state
+  const { alt, scale, noteLetter, scaleNotes } = state
   const synths = createSynths()
 
   return (
@@ -64,7 +60,7 @@ export default function Home() {
             alt={alt}
             onChange={setSimplified}
           />
-          <ScaleSelect onChange={setScale} scaleId={scaleId} />
+          <ScaleSelect onChange={setScale} scale={scale} />
           <PlayPause notes={scaleNotes} />
         </Box>
 
@@ -73,7 +69,7 @@ export default function Home() {
           onMidiCreated={(toneMidi) => {
             console.log('onMidiCreated', toneMidi)
           }}
-          title={`${noteLetter}${altToSymbol(alt)} ${scaleName} scale`}
+          title={`${noteLetter}${altToSymbol(alt)} ${scale} scale`}
         />
         <Chords tonic={noteLetter} />
         <Waveform />

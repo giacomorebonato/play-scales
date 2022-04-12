@@ -5,18 +5,18 @@ import React from 'react'
 import { useImmer } from 'use-immer'
 import { Alt, altToSymbol, parseAlt } from '../lib/alt-utils'
 import { isShallowEqual } from '../lib/isShallowEqual'
-import { scalesMap } from '../lib/scales'
+import { allScales, Scale } from '../lib/scales'
 
 type ScaleState = {
   alt: Alt
   noteLetter: string
-  scaleId: number
+  scale: Scale
 }
 
 const INITIAL_STATE: ScaleState = {
   alt: '',
   noteLetter: 'C',
-  scaleId: 49
+  scale: 'major'
 } as const
 
 const getInitialState = (): ScaleState => {
@@ -40,8 +40,17 @@ const getInitialState = (): ScaleState => {
       : query.noteLetter
   }
 
-  if (query.scaleId) {
-    queryState.scaleId = +query.scaleId
+  if (query.scale) {
+    const scale: any = Array.isArray(query.scale)
+      ? decodeURIComponent(query.scale[0])
+      : decodeURIComponent(query.scale)
+
+    if (allScales.includes(scale)) {
+      queryState.scale = scale
+    } else {
+      console.warn('Invalid scale in querystring')
+      queryState.scale = 'major'
+    }
   }
 
   return { ...INITIAL_STATE, ...queryState }
@@ -50,7 +59,7 @@ const getInitialState = (): ScaleState => {
 export const useScale = () => {
   const router = useRouter()
   const [state, updateState] = useImmer<ScaleState>(getInitialState())
-  const { scaleId, noteLetter, alt } = state
+  const { scale, noteLetter, alt } = state
 
   React.useEffect(() => {
     if (
@@ -60,23 +69,22 @@ export const useScale = () => {
       return
     }
     const params = new URLSearchParams({
-      scaleId: scaleId?.toString(),
+      scale,
       noteLetter,
       alt: alt?.toString()
     })
     router.push(`/?${params}`, undefined, { shallow: true })
   }, [state])
 
-  const scaleName = scalesMap.get(scaleId)
   const noteFull = `${noteLetter}${altToSymbol(alt)}`
-  const scale = Tonal.Scale.get(`${noteFull}4 ${scaleName}`)
+  const tonalScale = Tonal.Scale.get(`${noteFull}4 ${scale}`)
   const scaleNotes = [
-    ...scale.notes,
-    Tonal.Note.transpose(scale.notes[0], '8M')
+    ...tonalScale.notes,
+    Tonal.Note.transpose(tonalScale.notes[0], '8M')
   ]
 
   return {
-    state: { alt, noteLetter, noteFull, scale, scaleId, scaleName, scaleNotes },
+    state: { alt, noteLetter, noteFull, scale, scaleNotes },
     setSimplified({ alt, noteLetter }: { alt: Alt; noteLetter: string }) {
       updateState((draft) => {
         Object.assign(draft, { alt, noteLetter })
@@ -92,9 +100,9 @@ export const useScale = () => {
         draft.noteLetter = noteLetter
       })
     },
-    setScale({ scaleId, scaleName }) {
+    setScale(scale: Scale) {
       updateState((draft) => {
-        Object.assign(draft, { scaleId, scaleName })
+        draft.scale = scale
       })
     }
   }

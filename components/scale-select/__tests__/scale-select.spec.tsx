@@ -6,7 +6,7 @@ import { ScaleSelect } from '../'
 describe('scale-select', () => {
   it('renders its label', () => {
     const { getByText } = render(
-      <ScaleSelect onChange={jest.fn()} scaleId={3} />
+      <ScaleSelect onChange={jest.fn()} scale='major' />
     )
 
     expect(
@@ -14,27 +14,24 @@ describe('scale-select', () => {
     ).toBeInTheDocument()
   })
 
-  it('passes scaleId and scaleName on change', () => {
+  it('passes a scale on change', () => {
     const mockOnChange = jest.fn()
     const { getByTestId } = render(
-      <ScaleSelect onChange={mockOnChange} scaleId={3} />
+      <ScaleSelect onChange={mockOnChange} scale='major' />
     )
 
     fireEvent.change(getByTestId('scale-select'), {
       target: {
-        value: '3'
+        value: 'harmonic minor'
       }
     })
 
-    expect(mockOnChange).toHaveBeenCalledWith({
-      scaleId: 3,
-      scaleName: 'harmonic minor'
-    })
+    expect(mockOnChange).toHaveBeenCalledWith('harmonic minor')
   })
 
   it('renders a toggle for showing advanced scales', () => {
-    const { debug, getByTestId, getByText } = render(
-      <ScaleSelect onChange={jest.fn()} scaleId={3} />
+    const { getByTestId, getByText } = render(
+      <ScaleSelect onChange={jest.fn()} scale='major' />
     )
 
     expect(getByText(/All scales/g)).toBeInTheDocument()

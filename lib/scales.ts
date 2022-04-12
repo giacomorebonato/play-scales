@@ -1,4 +1,4 @@
-export const scales = [
+export const allScales = [
   'aeolian',
   'altered',
   'augmented',
@@ -94,25 +94,13 @@ export const scales = [
   'whole tone pentatonic'
 ] as const
 
-const mainScales: typeof scales[number][] = [
+export const mainScales = [
   'major',
   'major pentatonic',
   'major blues',
   'harmonic minor',
   'melodic minor',
   'minor blues'
-]
+] as const
 
-export const scalesMap: Map<number, typeof scales[number]> = scales.reduce(
-  (acc, scaleName, i) => {
-    acc.set(i, scaleName)
-    return acc
-  },
-  new Map()
-)
-
-export const mainScalesMap: Map<number, typeof mainScales[number]> =
-  mainScales.reduce((acc, scaleName, i) => {
-    acc.set(i, scaleName)
-    return acc
-  }, new Map())
+export type Scale = typeof allScales[number]
